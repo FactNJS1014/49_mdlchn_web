@@ -36,13 +36,23 @@
                   <template v-slot:title>
                     <strong class="mb-2 text-h6"
                       >Document No. :{{
-                        item.raw.OPR_HREC_ISSUENO.split("-").pop().slice(-3)
+                        formatIssueNo(item.raw.OPR_HREC_ISSUENO)
                       }}</strong
                     >
                     <!-- <p class="mb-2 text-h6 text-red" v-if="item.raw.OPR_HREC_SENDAPP_STD == 0">
                       ยังไม่ได้ยืนยันส่งข้อมูลจากผู้สร้าง
                     </p> -->
+                    <!-- <strong class="ms-3" v-if="currentAppLev == 1"
+                      >ข้อมูลนี้ Sup Lead อนุมัติ</strong
+                    >
+                    <strong class="ms-3" v-if="currentAppLev == 2"
+                      >ข้อมูลนี้ Leader อนุมัติ</strong
+                    > -->
+                    <!-- <strong class="ms-3" v-if="currentAppLev == 3"
+                      >ถึง QC อนุมัติ</strong
+                    > -->
                   </template>
+
                   <template v-slot:subtitle>
                     <table class="border border-blue-800">
                       <tbody>
@@ -95,9 +105,23 @@
                     View PDF
                   </v-btn>
                   <div
-                    class="d-flex align-center text-caption text-medium-emphasis me-1"
+                    class="d-flex align-center text-caption text-medium-emphasis me-1 gap-4"
                   >
                     <!-- ถ้า permission = 1 -->
+                    <v-btn
+                      v-if="
+                        user?.permission == 1 ||
+                        user?.permission == 2 ||
+                        user?.permission == 7
+                      "
+                      variant="flat"
+                      color="warning"
+                      rounded="lg"
+                      @click="ClickEditData(item.raw)"
+                    >
+                      <v-icon icon="mdi-pencil" class="mr-2"></v-icon>
+                      แก้ไขข้อมูล
+                    </v-btn>
                     <v-btn
                       v-if="
                         user?.permission == 1 ||
@@ -113,61 +137,50 @@
                       ยืนยันส่งอนุมัติ
                     </v-btn>
 
-                    <!-- ถ้า permission = 9 -->
-                    <v-speed-dial
-                      location="left bottom"
-                      transition="fade-transition"
-                      v-if="user?.permission == 9"
-                    >
-                      <template v-slot:activator="{ props: activatorProps }">
-                        <v-fab
-                          v-bind="activatorProps"
-                          color="blue-accent-3"
-                          icon="mdi-dots-vertical"
-                          rounded="xl"
-                        ></v-fab>
+                    <v-tooltip location="top" v-if="user?.permission == 9">
+                      <template v-slot:activator="{ props }">
+                        <v-btn
+                          icon
+                          v-bind="props"
+                          color="green-darken-3"
+                          rounded="lg"
+                          @click="updateAppr(item.raw)"
+                        >
+                          <v-icon color="white"> mdi-check-bold </v-icon>
+                        </v-btn>
                       </template>
+                      <span>อนุมัติ</span>
+                    </v-tooltip>
 
-                      <v-btn
-                        key="1"
-                        rounded="lg"
-                        variant="flat"
-                        color="green-darken-3"
-                        @click="updateAppr(item.raw)"
-                      >
-                        <v-icon
-                          icon="mdi-check-bold"
-                          class="mr-3 pa-3"
-                        ></v-icon>
+                    <v-tooltip location="top" v-if="user?.permission == 9">
+                      <template v-slot:activator="{ props }">
+                        <v-btn
+                          icon
+                          v-bind="props"
+                          color="red-darken-3"
+                          rounded="lg"
+                          @click="RejectedData(item.raw.OPR_HREC_ID)"
+                        >
+                          <v-icon color="white"> mdi-keyboard-return </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>ส่งกลับไปแก้ไข</span>
+                    </v-tooltip>
 
-                        <h1 class="text-[16px] font-medium">อนุมัติ</h1>
-                      </v-btn>
-                      <v-btn
-                        key="2"
-                        rounded="lg"
-                        variant="flat"
-                        color="red-darken-3"
-                        @click="RejectedData(item.raw)"
-                      >
-                        <v-icon
-                          icon="mdi-keyboard-return"
-                          class="mr-3 pa-3"
-                        ></v-icon>
-
-                        <h1 class="text-[16px] font-medium">ส่งกลับไปแก้ไข</h1>
-                      </v-btn>
-                      <v-btn
-                        key="3"
-                        rounded="lg"
-                        variant="flat"
-                        color="red-accent-4"
-                        @click="Deleted"
-                      >
-                        <v-icon icon="mdi-trash-can" class="mr-3 pa-3"></v-icon>
-
-                        <h1 class="text-[16px] font-medium">ลบทิ้ง</h1>
-                      </v-btn>
-                    </v-speed-dial>
+                    <v-tooltip location="bottom" v-if="user?.permission == 9">
+                      <template v-slot:activator="{ props }">
+                        <v-btn
+                          icon
+                          v-bind="props"
+                          color="red-accent-4"
+                          rounded="lg"
+                          @click="Deleted"
+                        >
+                          <v-icon color="white"> mdi-trash-can </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>ลบ (ยกเลิกเปลี่ยน)</span>
+                    </v-tooltip>
                   </div>
                   <v-dialog v-model="deletedDialog" max-width="400" persistent>
                     <v-card class="pa-3">
@@ -199,12 +212,71 @@
                       </template>
                     </v-card>
                   </v-dialog>
+                  <v-dialog v-model="rejectedDialog" max-width="400" persistent>
+                    <v-card class="pa-3">
+                      <v-select
+                        label="เลือก Form ที่ให้กลับไปแก้ไข"
+                        :items="['Operator', 'Technician']"
+                        v-model="selected_form"
+                        variant="outlined"
+                        rounded="md"
+                      ></v-select>
+                      <v-text-field
+                        variant="outlined"
+                        rounded="md"
+                        v-model="remark_rejected"
+                        label="กรอกเหตุผล"
+                      >
+                      </v-text-field>
+                      <template v-slot:actions>
+                        <v-spacer></v-spacer>
+
+                        <v-btn
+                          @click="rejectedDialog = false"
+                          class="font-semibold"
+                        >
+                          Close
+                        </v-btn>
+
+                        <v-btn @click="SubmitRejected()" class="font-semibold">
+                          ยืนยันส่งกลับ
+                        </v-btn>
+                      </template>
+                    </v-card>
+                  </v-dialog>
                 </div>
               </v-card>
             </v-col>
           </v-row>
         </v-container>
         <cpdocs :data-item="selected_data_cp" />
+        <v-dialog v-model="edit_show_dialog" width="auto">
+          <v-card min-width="1000" class="pa-3">
+            <cpupdate
+              v-if="prs === 'CP'"
+              :id="id_update"
+              :data_edit="obj_rj"
+              :won_select="won_select"
+              :model_chn_select="model_chn_select"
+              :edit_show_dialog="edit_show_dialog"
+            />
+            <refupdate
+              v-else
+              :id="id_update"
+              :data_edit="obj_rj"
+              :won_select="won_select"
+              :model_chn_select="model_chn_select"
+              :edit_show_dialog="edit_show_dialog"
+            />
+            <template v-slot:actions>
+              <v-btn
+                class="ms-auto"
+                text="Close"
+                @click="edit_show_dialog = false"
+              ></v-btn>
+            </template>
+          </v-card>
+        </v-dialog>
       </template>
 
       <!-- เรียกใช้ cpdocs.vue -->
@@ -238,7 +310,7 @@
   </v-card>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, defineExpose } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import dayjs from "dayjs";
 import cpdocs from "~/components/cpdocs.vue";
@@ -251,23 +323,28 @@ definePageMeta({
 const { public: config } = useRuntimeConfig();
 console.log(config.apiBase);
 
+/**
+ * TODO : Use cookie for set userinfo
+ */
+const userSession = useCookie("user_session");
+
 const user = ref<any>(null);
 const empno = ref<string>("");
 
 const remark = ref<string>("");
 
-/**
- *  TODO: เรียกข้อมูล session ผู้ใช้งาน
- */
-const sessionUser = async () => {
-  const res = await axios.get(`${config.apiBase}/session/user`, {
-    withCredentials: true, // ต้องใส่ เพื่อส่ง laravel_session cookie
-  });
+// /**
+//  *  TODO: เรียกข้อมูล session ผู้ใช้งาน
+//  */
+// const sessionUser = async () => {
+//   const res = await axios.get(`${config.apiBase}/session/user`, {
+//     withCredentials: true, // ต้องใส่ เพื่อส่ง laravel_session cookie
+//   });
 
-  user.value = res.data;
-  console.log("user session:", user.value);
-  empno.value = user.value?.empno || "";
-};
+//   user.value = res.data;
+//   console.log("user session:", user.value);
+//   empno.value = user.value?.empno || "";
+// };
 
 /**
  * TODO: สร้างตัวแปรเพื่อรับค่า api และ v-model
@@ -275,6 +352,16 @@ const sessionUser = async () => {
 const search = ref<string>("");
 const all_data = ref<any>([]);
 const deletedDialog = ref<boolean>(false);
+const rejectedDialog = ref<boolean>(false);
+const selected_form = ref<string>("");
+const remark_rejected = ref<string>("");
+const selected_id = ref<string>("");
+const edit_show_dialog = ref<boolean>(false);
+const id_update = ref<string>("");
+const obj_rj = ref<any>(null);
+const prs = ref<string>("");
+const won_select = ref<string>("");
+const model_chn_select = ref<string>("");
 
 interface DataItem {
   OPR_HREC_LINE?: string;
@@ -306,6 +393,18 @@ interface AppDataItem {
   OPR_HREC_ID: string;
   // ... เพิ่ม field อื่น ๆ ตามต้องการ
 }
+
+//function edit data form CP
+const ClickEditData = (obj: any) => {
+  id_update.value = obj.OPR_HREC_ID;
+  obj_rj.value = obj;
+  prs.value = obj.OPR_HREC_PROCS;
+  won_select.value = obj.OPR_HREC_WON_CHANGE;
+  model_chn_select.value = obj.OPR_HREC_CHNMDLNM;
+  edit_show_dialog.value = true;
+  console.log("obj_rj:", obj_rj.value);
+};
+
 /**
  * TODO: สร้างฟังก์ชันรับค่าจาก api
  */
@@ -318,8 +417,9 @@ const GetAllData = async () => {
         params: {
           empno: empno.value,
         },
-      }
+      },
     );
+    console.log("Empno:", empno.value);
 
     all_data.value = res.data.cp;
     app_data_cp.value = res.data.app_cp;
@@ -328,8 +428,8 @@ const GetAllData = async () => {
     APP_LEV.value = [];
     APP_EMP.value = [];
 
-    console.log("📦 All Data:", all_data.value);
-    console.log("📋 Approval Data:", app_data_cp.value);
+    // console.log("📦 All Data:", all_data.value);
+    // console.log("📋 Approval Data:", app_data_cp.value);
 
     // 🔍 ลองหาจาก app_data_cp ก่อน
     app_data_cp.value.forEach((appItem: AppDataItem) => {
@@ -337,12 +437,12 @@ const GetAllData = async () => {
         ? appItem.APP_REC_EMPNO.split(",")
         : [appItem.APP_REC_EMPNO];
 
-      console.log(
-        "🔍 Checking APP_REC_EMPNO:",
-        empID,
-        "for empno:",
-        empno.value
-      );
+      // console.log(
+      //   "🔍 Checking APP_REC_EMPNO:",
+      //   empID,
+      //   "for empno:",
+      //   empno.value,
+      // );
 
       if (empID.includes(empno.value)) {
         OPR_HREC_ID.value.push(appItem.OPR_HREC_ID);
@@ -367,24 +467,40 @@ const GetAllData = async () => {
 
     // APP_LEV.value = maxFoundLevel;
 
-    console.log("✅ Final APP_LEV:", APP_LEV.value);
-    console.log("✅ Final APP_EMP:", APP_EMP.value);
-    console.log("✅ Final OPR_HREC_ID:", OPR_HREC_ID.value);
+    // console.log("✅ Final APP_LEV:", APP_LEV.value);
+    // console.log("✅ Final APP_EMP:", APP_EMP.value);
+    // console.log("✅ Final OPR_HREC_ID:", OPR_HREC_ID.value);
   } catch (error) {
     console.error(error);
   }
 };
 
+const currentAppLev = computed(() => {
+  return APP_LEV.value.length ? APP_LEV.value[0] : null;
+});
+
 /**
  * TODO: สร้างฟังก์ชัน reject data
  */
 
-const RejectedData = async (data: any) => {
+const RejectedData = (id: string) => {
+  selected_id.value = id;
+  rejectedDialog.value = true;
+  console.log(id);
+};
+
+const SubmitRejected = async () => {
+  const payload = {
+    id: selected_id.value,
+    remark: remark_rejected.value,
+    form: selected_form.value,
+  };
   const res = await axios.put(
     "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/update/reject",
-    data
+    payload,
   );
   console.log(res.data);
+  rejectedDialog.value = false;
   if (res.data.success === true) {
     Swal.fire({
       icon: "success",
@@ -393,40 +509,57 @@ const RejectedData = async (data: any) => {
       timer: 1500,
       timerProgressBar: true,
     }).then(() => {
-      location.reload();
+      GetAllData();
+      filterData();
     });
   }
 };
 
 const filterData = () => {
   console.log("🔹 Start filtering data");
+  const seen = new Set<number>();
 
   filteredData.value = [];
 
   all_data.value.forEach((item: any) => {
-    const itemLevel = item.OPR_HREC_SENDAPP_STD;
-    let index = OPR_HREC_ID.value.indexOf(item.OPR_HREC_ID);
-
-    console.log("ItemLevel:", itemLevel);
-    console.log("Index of OPR_HREC_ID:", index);
-    console.log("APP_LEV:", APP_LEV.value[index]);
-
-    if (index !== -1 && itemLevel == APP_LEV.value[index]) {
-      filteredData.value.push(item);
-      console.log(`✅ SHOW: Item ID ${item.OPR_HREC_ID}`);
+    if (seen.has(item.OPR_HREC_ID)) {
       return;
-    } else {
-      if (itemLevel == 0 && !APP_EMP.value.includes(empno.value)) {
-        filteredData.value.push(item);
-        console.log(`✅ SHOW (Level 0): Item ID ${item.OPR_HREC_ID}`);
-        return;
-      }
     }
 
-    console.log(`🚫 HIDE: Item ID ${item.OPR_HREC_ID}`);
+    const itemLevel = item.OPR_HREC_SENDAPP_STD;
+    const index = OPR_HREC_ID.value.indexOf(item.OPR_HREC_ID);
+
+    // console.log("ItemLevel:", itemLevel);
+    // console.log("Index of OPR_HREC_ID:", index);
+    // console.log("APP_LEV:", APP_LEV.value[index]);
+
+    if (index !== -1 && itemLevel === APP_LEV.value[index]) {
+      // ✅ มี approval record และ level ตรง
+      seen.add(item.OPR_HREC_ID);
+      filteredData.value.push(item);
+      //
+      return;
+    }
+
+    // ✅ ไม่มี record ใน APPREC_H_TBL เลย (ยังไม่เข้า approval)
+    if (index === -1 && itemLevel === 0) {
+      seen.add(item.OPR_HREC_ID);
+      filteredData.value.push(item);
+      // console.log(`✅ SHOW (NO APP): Item ID ${item.OPR_HREC_ID}`);
+      return;
+    }
+
+    if (itemLevel == 0 && !APP_EMP.value.includes(empno.value)) {
+      seen.add(item.OPR_HREC_ID);
+      filteredData.value.push(item);
+      // console.log(`✅ SHOW (Level 0): Item ID ${item.OPR_HREC_ID}`);
+      return;
+    }
+
+    // console.log(`🚫 HIDE: Item ID ${item.OPR_HREC_ID}`);
   });
 
-  console.log("\n🎯 Filtered Data:", filteredData.value);
+  // console.log("\n🎯 Filtered Data:", filteredData.value);
 };
 
 const Deleted = () => {
@@ -440,7 +573,7 @@ const SubmitDeleted = async (data: string) => {
   };
   const res = await axios.put(
     "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/update/std/delete",
-    payload
+    payload,
   );
   console.log(res.data);
 
@@ -488,7 +621,7 @@ const goAppr = async (data: any) => {
 
   const res = await axios.post(
     "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/insert/approve",
-    data
+    data,
   );
   if (res.data.success === true) {
     Swal.fire({
@@ -496,22 +629,23 @@ const goAppr = async (data: any) => {
       title: "ส่งอนุมัติสำเร็จ",
       showConfirmButton: false,
       timer: 1500,
-    }).then(() => {
-      location.reload();
+    }).then(async () => {
+      await filterData();
     });
   }
 };
 
 const updateAppr = async (data: any) => {
+  const index = OPR_HREC_ID.value.indexOf(data.OPR_HREC_ID);
   const payload = {
     ...data,
     APPROVE_BY: empno.value,
-    APP_LEV: APP_LEV.value,
+    APP_LEV: APP_LEV.value[index],
   };
 
   const res = await axios.put(
     "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/update/approve",
-    payload
+    payload,
   );
   console.log(res.data);
   if (res.data.success === true) {
@@ -525,10 +659,30 @@ const updateAppr = async (data: any) => {
     });
   }
 };
+const newSettingUserInfo = () => {
+  user.value = userSession.value;
+  empno.value = userSession.value.empno;
+};
+
+const formatIssueNo = (issueNo: string) => {
+  const v = issueNo?.split("-").pop() ?? "";
+  const num = parseInt(v, 10);
+
+  if (isNaN(num)) return "";
+
+  // ถ้าน้อยกว่า 1000 → แสดง 3 หลัก
+  if (num < 1000) {
+    return String(num).padStart(3, "0");
+  }
+
+  // ถ้า 1000 ขึ้นไป → แสดงเต็ม
+  return String(num);
+};
 
 onMounted(async () => {
-  await sessionUser();
+  // await sessionUser();
+  await newSettingUserInfo();
   await GetAllData();
-  filterData();
+  await filterData();
 });
 </script>

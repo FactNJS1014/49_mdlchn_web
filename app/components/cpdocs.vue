@@ -2,7 +2,7 @@
   <!-- Template PDF hidden -->
   <div ref="pdfTemplate" class="hidden pa-2">
     <p class="flex justify-center text-lg font-bold align-center">
-      MODEL CHANGE RECORD SMT PROCESS : {{ dataItem?.OPR_HREC_PROCS }}
+      MODEL CHANGE RECORD SMT PROCESS : B-SMT
     </p>
     <div class="pa-3 border border-black w-[800px] bg-white mt-3 space-y-2">
       <div class="grid grid-cols-3 gap-4">
@@ -12,7 +12,7 @@
         </div>
         <div>
           <strong>Document No.:</strong>
-          {{ dataItem?.OPR_HREC_ISSUENO.split("-").pop().slice(-3) }}
+          {{ formatIssueNo(dataItem?.OPR_HREC_ISSUENO) }}
         </div>
       </div>
       <div class="grid grid-cols-1 gap-4">
@@ -33,7 +33,7 @@
           <input
             type="checkbox"
             class="w-4 h-4 mt-3"
-            :checked="dataItem?.OPR_HREC_STATUSMDL === 'New Line'"
+            :checked="dataItem?.OPR_HREC_STATUSMDL === 'New line'"
           />
           <span>New Line</span>
           <input
@@ -111,8 +111,28 @@
       <div class="grid grid-cols-2 gap-4">
         <div>
           <strong>Program name:</strong> {{ dataItem?.OPR_HREC_PRGMNM }}
+          <strong class="ms-3">Revision:</strong>
+          {{ dataItem?.OPR_HREC_REVNO }}
         </div>
-        <div><strong>REV.:</strong> {{ dataItem?.OPR_HREC_PRGMREV }}</div>
+        <div><strong>PCB Number:</strong> {{ dataItem?.OPR_HREC_PRGMREV }}</div>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-2 border border-gray-400 px-3 py-4 avoid-break-inside"
+    >
+      <div class="flex gap-4">
+        <div>
+          <strong>Start Machine: </strong>
+          <span>{{ dataItem?.TEC_CPHREC_STARTMCHN }}</span>
+        </div>
+        <div>
+          <strong>End Machine: </strong>
+          <span>{{ dataItem?.TEC_CPHREC_FINISHMCHN }}</span>
+        </div>
+        <div>
+          <strong>Date Change Model: </strong>
+          <span>{{ dateFormat(dataItem?.TEC_CPHREC_LSTDT) }}</span>
+        </div>
       </div>
     </div>
 
@@ -273,24 +293,7 @@
         <div class="flex flex-col">
           <div class="flex items-center gap-2">
             <strong> Head unit: </strong>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="dataItem?.TEC_CPHREC_GLUEHUNIT === 'Head no.1'"
-            />
-            <span>Head no.1</span>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="dataItem?.TEC_CPHREC_GLUEHUNIT === 'Head no.2'"
-            />
-            <span>Head no.2</span>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="dataItem?.TEC_CPHREC_GLUEHUNIT === 'Head no.3'"
-            />
-            <span>Head no.3</span>
+            <span>{{ dataItem?.TEC_CPHREC_GLUEHUNIT }}</span>
           </div>
         </div>
       </div>
@@ -361,24 +364,7 @@
         <div class="flex flex-col">
           <div class="flex items-center gap-2">
             <strong> Head unit: </strong>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="dataItem?.TEC_CPHREC_GLUESNDHUNIT === 'Head no.1'"
-            />
-            <span>Head no.1</span>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="dataItem?.TEC_CPHREC_GLUESNDHUNIT === 'Head no.2'"
-            />
-            <span>Head no.2</span>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="dataItem?.TEC_CPHREC_GLUESNDHUNIT === 'Head no.3'"
-            />
-            <span>Head no.3</span>
+            <span>{{ dataItem?.TEC_CPHREC_GLUESNDHUNIT }}</span>
           </div>
         </div>
       </div>
@@ -477,6 +463,12 @@
               :checked="dataItem?.TEC_CPHREC_MNTFSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="dataItem?.TEC_CPHREC_MNTFSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -554,6 +546,12 @@
               :checked="dataItem?.TEC_CPHREC_MNTSNSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="dataItem?.TEC_CPHREC_MNTSNSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -631,6 +629,12 @@
               :checked="dataItem?.TEC_CPHREC_MNTTRSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="dataItem?.TEC_CPHREC_MNTTRSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -708,6 +712,12 @@
               :checked="dataItem?.TEC_CPHREC_MNTFOSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="dataItem?.TEC_CPHREC_MNTFOSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -821,14 +831,14 @@
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
-          <strong>Temperature profile:</strong>
+          <strong>Temperature profile: (±5 °C)</strong>
 
           <table class="min-w-max text-sm table-auto">
             <thead>
               <tr>
                 <th class="p-2 text-left w-24 break-words">Channel</th>
-                <th class="p-2 text-left break-words">TOP Side</th>
-                <th class="p-2 text-left break-words">BOTTOM Side</th>
+                <th class="p-2 text-left break-words">TOP Side (°C)</th>
+                <th class="p-2 text-left break-words">BOTTOM Side (°C)</th>
               </tr>
             </thead>
 
@@ -925,6 +935,15 @@
               </tr>
             </tbody>
           </table>
+          <div class="flex items-center gap-2">
+            <strong>Conveyor Speed: </strong>
+            <span
+              >{{
+                Number(dataItem?.TEC_CPHREC_CONV_SPD).toFixed(2)
+              }}
+              m/min</span
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -1113,7 +1132,7 @@ watch(
     await nextTick();
     generatePdf();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const generatePdf = async () => {
@@ -1237,7 +1256,7 @@ const generatePdf = async () => {
       0,
       0,
       canvas.width,
-      drawHeightInPx
+      drawHeightInPx,
     );
 
     const imgData = pageCanvas.toDataURL("image/jpeg", 1.0);
@@ -1253,5 +1272,20 @@ const generatePdf = async () => {
   // --- สิ้นสุดการทำงาน (เหมือนเดิม) ---
   window.open(pdf.output("bloburl"), "_blank");
   el.style.display = "none";
+};
+
+const formatIssueNo = (issueNo: string) => {
+  const v = issueNo?.split("-").pop() ?? "";
+  const num = parseInt(v, 10);
+
+  if (isNaN(num)) return "";
+
+  // ถ้าน้อยกว่า 1000 → แสดง 3 หลัก
+  if (num < 1000) {
+    return String(num).padStart(3, "0");
+  }
+
+  // ถ้า 1000 ขึ้นไป → แสดงเต็ม
+  return String(num);
 };
 </script>

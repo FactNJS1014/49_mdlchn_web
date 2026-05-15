@@ -185,7 +185,7 @@ const data_set = ref<string[]>([]);
 const fetchCustomers = async () => {
   try {
     const res = await axios.get(
-      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/cus"
+      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/cus",
     );
     customer_list.value = res.data;
     // console.log(customer_list.value);
@@ -207,7 +207,7 @@ const SubmitMasterSettings = async () => {
 
   const res = await axios.post(
     "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/insert/settings",
-    payload
+    payload,
   );
 
   if (res.data.std === true) {
@@ -224,7 +224,7 @@ const SubmitMasterSettings = async () => {
 
 const fetchSAG = async () => {
   const res = await axios.get(
-    "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/settings"
+    "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/settings",
   );
   data_set.value = res.data.get_db;
   console.log(res.data);

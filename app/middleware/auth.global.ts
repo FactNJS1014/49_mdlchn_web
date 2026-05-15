@@ -1,4 +1,5 @@
 export default defineNuxtRouteMiddleware(async (to) => {
+  return;
   // ถ้ามี param จาก URL
   if (to.query.empno) {
     await $fetch(

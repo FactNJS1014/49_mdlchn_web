@@ -4,7 +4,6 @@
       :items="filtered_data"
       :items-per-page="4"
       :search="search_rf"
-      class="mt-2"
     >
       <template v-slot:header>
         <v-toolbar class="px-2 bg-cyan-accent-3">
@@ -38,10 +37,20 @@
                   <template v-slot:title>
                     <strong class="mb-2 text-h6"
                       >Document No. :{{
-                        item.raw.OPR_HREC_ISSUENO.split("-").pop().slice(-3)
+                        formatIssueNo(item.raw.OPR_HREC_ISSUENO)
                       }}</strong
                     >
+                    <!-- <strong class="ms-3 text-md" v-if="currentAppLev == 1"
+                      >ข้อมูลนี้ Sup Lead อนุมัติ</strong
+                    >
+                    <strong class="ms-3 text-md" v-if="currentAppLev == 2"
+                      >ข้อมูลนี้ Leader อนุมัติ</strong
+                    > -->
+                    <!-- <strong class="ms-3" v-if="currentAppLev == 3"
+                      >ถึง QC อนุมัติ</strong
+                    > -->
                   </template>
+
                   <template v-slot:subtitle>
                     <table class="border border-blue-800">
                       <tbody>
@@ -93,9 +102,23 @@
                     View PDF
                   </v-btn>
                   <div
-                    class="d-flex align-center text-caption text-medium-emphasis me-1"
+                    class="d-flex align-center text-caption text-medium-emphasis me-1 gap-4"
                   >
                     <!-- ถ้า permission = 1 -->
+                    <v-btn
+                      v-if="
+                        user?.permission == 1 ||
+                        user?.permission == 2 ||
+                        user?.permission == 7
+                      "
+                      variant="flat"
+                      color="warning"
+                      rounded="lg"
+                      @click="ClickEditData(item.raw)"
+                    >
+                      <v-icon icon="mdi-pencil" class="mr-2"></v-icon>
+                      แก้ไขข้อมูล
+                    </v-btn>
                     <v-btn
                       v-if="
                         user?.permission == 1 ||
@@ -110,62 +133,50 @@
                       <v-icon icon="mdi-check-bold" class="mr-2"></v-icon>
                       ยืนยันส่งอนุมัติ
                     </v-btn>
-
-                    <!-- ถ้า permission = 9 -->
-                    <v-speed-dial
-                      location="left bottom"
-                      transition="fade-transition"
-                      v-if="user?.permission == 9"
-                    >
-                      <template v-slot:activator="{ props: activatorProps }">
-                        <v-fab
-                          v-bind="activatorProps"
-                          color="blue-accent-3"
-                          icon="mdi-dots-vertical"
-                          rounded="xl"
-                        ></v-fab>
+                    <v-tooltip location="top" v-if="user?.permission == 9">
+                      <template v-slot:activator="{ props }">
+                        <v-btn
+                          icon
+                          v-bind="props"
+                          color="green-darken-3"
+                          rounded="lg"
+                          @click="updateAppr(item.raw)"
+                        >
+                          <v-icon color="white"> mdi-check-bold </v-icon>
+                        </v-btn>
                       </template>
+                      <span>อนุมัติ</span>
+                    </v-tooltip>
 
-                      <v-btn
-                        key="1"
-                        rounded="lg"
-                        variant="flat"
-                        color="green-darken-3"
-                        @click="updateAppr(item.raw)"
-                      >
-                        <v-icon
-                          icon="mdi-check-bold"
-                          class="mr-3 pa-3"
-                        ></v-icon>
+                    <v-tooltip location="top" v-if="user?.permission == 9">
+                      <template v-slot:activator="{ props }">
+                        <v-btn
+                          icon
+                          v-bind="props"
+                          color="red-darken-3"
+                          rounded="lg"
+                          @click="RejectedData(item.raw.OPR_HREC_ID)"
+                        >
+                          <v-icon color="white"> mdi-keyboard-return </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>ส่งกลับไปแก้ไข</span>
+                    </v-tooltip>
 
-                        <h1 class="text-[16px] font-medium">อนุมัติ</h1>
-                      </v-btn>
-                      <v-btn
-                        key="2"
-                        rounded="lg"
-                        variant="flat"
-                        color="red-darken-3"
-                        @click="RejectedData(item.raw)"
-                      >
-                        <v-icon
-                          icon="mdi-keyboard-return"
-                          class="mr-3 pa-3"
-                        ></v-icon>
-
-                        <h1 class="text-[16px] font-medium">ส่งกลับไปแก้ไข</h1>
-                      </v-btn>
-                      <v-btn
-                        key="3"
-                        rounded="lg"
-                        variant="flat"
-                        color="red-accent-4"
-                        @click="Deleted(item.raw.OPR_HREC_ID)"
-                      >
-                        <v-icon icon="mdi-trash-can" class="mr-3 pa-3"></v-icon>
-
-                        <h1 class="text-[16px] font-medium">ลบทิ้ง</h1>
-                      </v-btn>
-                    </v-speed-dial>
+                    <v-tooltip location="bottom" v-if="user?.permission == 9">
+                      <template v-slot:activator="{ props }">
+                        <v-btn
+                          icon
+                          v-bind="props"
+                          color="red-accent-4"
+                          rounded="lg"
+                          @click="Deleted"
+                        >
+                          <v-icon color="white"> mdi-trash-can </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>ลบ (ยกเลิกเปลี่ยน)</span>
+                    </v-tooltip>
                   </div>
                   <v-dialog v-model="deletedDialog" max-width="400" persistent>
                     <v-card class="pa-3">
@@ -197,12 +208,71 @@
                       </template>
                     </v-card>
                   </v-dialog>
+                  <v-dialog v-model="rejectedDialog" max-width="400" persistent>
+                    <v-card class="pa-3">
+                      <v-select
+                        label="เลือก Form ที่ให้กลับไปแก้ไข"
+                        :items="['Operator', 'Technician']"
+                        v-model="selected_form"
+                        variant="outlined"
+                        rounded="md"
+                      ></v-select>
+                      <v-text-field
+                        variant="outlined"
+                        rounded="md"
+                        v-model="remark_rejected"
+                        label="กรอกเหตุผล"
+                      >
+                      </v-text-field>
+                      <template v-slot:actions>
+                        <v-spacer></v-spacer>
+
+                        <v-btn
+                          @click="rejectedDialog = false"
+                          class="font-semibold"
+                        >
+                          Close
+                        </v-btn>
+
+                        <v-btn @click="SubmitRejected()" class="font-semibold">
+                          ยืนยันส่งกลับ
+                        </v-btn>
+                      </template>
+                    </v-card>
+                  </v-dialog>
                 </div>
               </v-card>
             </v-col>
           </v-row>
         </v-container>
         <rfdocs :data-item="selected_data_rf" />
+        <v-dialog v-model="edit_show_dialog" width="auto">
+          <v-card min-width="1000" class="pa-3">
+            <cpupdate
+              v-if="prs === 'CP'"
+              :id="id_update"
+              :data_edit="obj_rj"
+              :won_select="won_select"
+              :model_chn_select="model_chn_select"
+              :edit_show_dialog="edit_show_dialog"
+            />
+            <refupdate
+              v-else
+              :id="id_update"
+              :data_edit="obj_rj"
+              :won_select="won_select"
+              :model_chn_select="model_chn_select"
+              :edit_show_dialog="edit_show_dialog"
+            />
+            <template v-slot:actions>
+              <v-btn
+                class="ms-auto"
+                text="Close"
+                @click="edit_show_dialog = false"
+              ></v-btn>
+            </template>
+          </v-card>
+        </v-dialog>
       </template>
 
       <template v-slot:footer="{ page, pageCount, prevPage, nextPage }">
@@ -242,10 +312,19 @@ definePageMeta({
 const { public: config } = useRuntimeConfig();
 console.log(config.apiBase);
 
+/**
+ * TODO : Use cookie for set userinfo
+ */
+const userSession = useCookie("user_session");
+
 const user = ref<any>(null);
 const empno = ref<string>("");
 const deletedDialog = ref<boolean>(false);
 const remark = ref<string>("");
+const selected_form = ref<string>("");
+const remark_rejected = ref<string>("");
+const rejectedDialog = ref<boolean>(false);
+const APPROVED_BY_ME = ref<any>([]);
 
 /**
  *  TODO: เรียกข้อมูล session ผู้ใช้งาน
@@ -260,7 +339,7 @@ const sessionUser = async () => {
   empno.value = user.value?.empno || "";
 };
 
-import { ref, onMounted, defineExpose } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
@@ -268,6 +347,13 @@ import rfdocs from "~/components/rfdocs.vue";
 
 const all_data_rf = ref<any>([]);
 const search_rf = ref<string>("");
+const selected_id = ref<string>("");
+const id_update = ref<string>("");
+const obj_rj = ref<any>(null);
+const prs = ref<string>("");
+const won_select = ref<string>("");
+const model_chn_select = ref<string>("");
+const edit_show_dialog = ref<boolean>(false);
 
 interface DataItem {
   OPR_HREC_LINE?: string;
@@ -298,6 +384,17 @@ interface AppDataItem {
   // ... เพิ่ม field อื่น ๆ ตามต้องการ
 }
 
+//function edit data form RF
+const ClickEditData = (obj: any) => {
+  id_update.value = obj.OPR_HREC_ID;
+  obj_rj.value = obj;
+  prs.value = obj.OPR_HREC_PROCS;
+  won_select.value = obj.OPR_HREC_WON_CHANGE;
+  model_chn_select.value = obj.OPR_HREC_CHNMDLNM;
+  edit_show_dialog.value = true;
+  console.log("obj_rj:", obj_rj.value);
+};
+
 const GetAllData = async () => {
   try {
     const res = await axios.get(
@@ -306,7 +403,7 @@ const GetAllData = async () => {
         params: {
           empno: empno.value,
         },
-      }
+      },
     );
 
     all_data_rf.value = res.data.rf;
@@ -329,7 +426,7 @@ const GetAllData = async () => {
         "🔍 Checking APP_REC_EMPNO:",
         empID,
         "for empno:",
-        empno.value
+        empno.value,
       );
 
       if (empID.includes(empno.value)) {
@@ -353,27 +450,43 @@ const GetAllData = async () => {
 
 const filterData = () => {
   console.log("🔹 Start filtering data");
+  const seen = new Set<number>();
 
   filtered_data.value = [];
 
   all_data_rf.value.forEach((item: any) => {
+    if (seen.has(item.OPR_HREC_ID)) {
+      return;
+    }
+
     const itemLevel = item.OPR_HREC_SENDAPP_STD;
-    let index = OPR_HREC_ID.value.indexOf(item.OPR_HREC_ID);
+    const index = OPR_HREC_ID.value.indexOf(item.OPR_HREC_ID);
 
     console.log("ItemLevel:", itemLevel);
     console.log("Index of OPR_HREC_ID:", index);
     console.log("APP_LEV:", APP_LEV.value[index]);
 
-    if (index !== -1 && itemLevel == APP_LEV.value[index]) {
+    if (index !== -1 && itemLevel === APP_LEV.value[index]) {
+      // ✅ มี approval record และ level ตรง
+      seen.add(item.OPR_HREC_ID);
       filtered_data.value.push(item);
-      console.log(`✅ SHOW: Item ID ${item.OPR_HREC_ID}`);
+      console.log(`✅ SHOW (APP): Item ID ${item.OPR_HREC_ID}`);
       return;
-    } else {
-      if (itemLevel === null && !APP_EMP.value.includes(empno.value)) {
-        filtered_data.value.push(item);
-        console.log(`✅ SHOW (Level 0): Item ID ${item.OPR_HREC_ID}`);
-        return;
-      }
+    }
+
+    // ✅ ไม่มี record ใน APPREC_H_TBL เลย (ยังไม่เข้า approval)
+    if (index === -1 && itemLevel === 0) {
+      seen.add(item.OPR_HREC_ID);
+      filtered_data.value.push(item);
+      console.log(`✅ SHOW (NO APP): Item ID ${item.OPR_HREC_ID}`);
+      return;
+    }
+
+    if (itemLevel == 0 && !APP_EMP.value.includes(empno.value)) {
+      seen.add(item.OPR_HREC_ID);
+      filtered_data.value.push(item);
+      console.log(`✅ SHOW (Level 0): Item ID ${item.OPR_HREC_ID}`);
+      return;
     }
 
     console.log(`🚫 HIDE: Item ID ${item.OPR_HREC_ID}`);
@@ -381,6 +494,10 @@ const filterData = () => {
 
   console.log("\n🎯 Filtered Data:", filtered_data.value);
 };
+
+const currentAppLev = computed(() => {
+  return APP_LEV.value.length ? APP_LEV.value[0] : null;
+});
 
 /**
  * TODO:ฟังก์ชันส่งข้อมูลอนุมัติไปยังผู้อนุมัติ
@@ -391,7 +508,7 @@ const goAppr = async (data: any) => {
 
   const res = await axios.post(
     "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/insert/approve/rf",
-    data
+    data,
   );
   if (res.data.success === true) {
     Swal.fire({
@@ -406,17 +523,22 @@ const goAppr = async (data: any) => {
 };
 
 const updateAppr = async (data: any) => {
+  const index = OPR_HREC_ID.value.indexOf(data.OPR_HREC_ID);
   const payload = {
     ...data,
     APPROVE_BY: empno.value,
-    APP_LEV: APP_LEV.value,
+    APP_LEV: APP_LEV.value[index],
   };
 
   const res = await axios.put(
     "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/update/approve",
-    payload
+    payload,
   );
   console.log(res.data);
+  console.log(APP_LEV.value);
+  console.log(APP_EMP.value);
+  console.log(empno.value);
+  // console.log(payload);
   if (res.data.success === true) {
     Swal.fire({
       icon: "success",
@@ -433,12 +555,24 @@ const updateAppr = async (data: any) => {
  * TODO: สร้างฟังก์ชัน reject data
  */
 
-const RejectedData = async (data: any) => {
+const RejectedData = (id: string) => {
+  selected_id.value = id;
+  rejectedDialog.value = true;
+  console.log(id);
+};
+
+const SubmitRejected = async () => {
+  const payload = {
+    id: selected_id.value,
+    remark: remark_rejected.value,
+    form: selected_form.value,
+  };
   const res = await axios.put(
     "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/update/reject",
-    data
+    payload,
   );
   console.log(res.data);
+  rejectedDialog.value = false;
   if (res.data.success === true) {
     Swal.fire({
       icon: "success",
@@ -447,7 +581,8 @@ const RejectedData = async (data: any) => {
       timer: 1500,
       timerProgressBar: true,
     }).then(() => {
-      location.reload();
+      GetAllData();
+      filterData();
     });
   }
 };
@@ -464,7 +599,7 @@ const SubmitDeleted = async (data: string) => {
   };
   const res = await axios.put(
     "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/update/std/delete",
-    payload
+    payload,
   );
   console.log(res.data);
 
@@ -501,8 +636,29 @@ const gotoEdit = (obj: any) => {
   navigateTo("/tech_record");
 };
 
+const formatIssueNo = (issueNo: string) => {
+  const v = issueNo?.split("-").pop() ?? "";
+  const num = parseInt(v, 10);
+
+  if (isNaN(num)) return "";
+
+  // ถ้าน้อยกว่า 1000 → แสดง 3 หลัก
+  if (num < 1000) {
+    return String(num).padStart(3, "0");
+  }
+
+  // ถ้า 1000 ขึ้นไป → แสดงเต็ม
+  return String(num);
+};
+
+const newSettingUserInfo = () => {
+  user.value = userSession.value;
+  empno.value = userSession.value.empno;
+};
+
 onMounted(async () => {
-  await sessionUser(); // ✅ รอ session โหลดเสร็จก่อน
+  // await sessionUser(); // ✅ รอ session โหลดเสร็จก่อน
+  await newSettingUserInfo(); // ✅ รอ session โหลดเสร็จก่อน
   await GetAllData(); // ✅ โหลดข้อมูลหลัก
   filterData(); // ✅ ค่อยกรองข้อมูลหลังจากมี empno แล้ว
 });

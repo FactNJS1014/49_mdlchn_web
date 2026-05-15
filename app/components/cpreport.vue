@@ -1,8 +1,11 @@
 <template>
   <!-- Template PDF hidden -->
   <div ref="pdfTemplate" class="hidden pa-2">
+    <p class="flex justify-end text-sm font-normal align-center">
+      F-AM-064 Rev.08
+    </p>
     <p class="flex justify-center text-lg font-bold align-center">
-      MODEL CHANGE RECORD SMT PROCESS : {{ cpItem?.OPR_HREC_PROCS }}
+      MODEL CHANGE RECORD SMT PROCESS : B-SMT
     </p>
     <div class="flex justify-end p-3 mt-3 mb-3">
       <table class="border border-black border-collapse">
@@ -70,7 +73,7 @@
         </div>
         <div>
           <strong>Document No.:</strong>
-          {{ cpItem?.OPR_HREC_ISSUENO.split("-").pop().slice(-3) }}
+          {{ formatIssueNo(cpItem?.OPR_HREC_ISSUENO) }}
         </div>
       </div>
       <div class="grid grid-cols-1 gap-4">
@@ -91,7 +94,7 @@
           <input
             type="checkbox"
             class="w-4 h-4 mt-3"
-            :checked="cpItem?.OPR_HREC_STATUSMDL === 'New Line'"
+            :checked="cpItem?.OPR_HREC_STATUSMDL === 'New line'"
           />
           <span>New Line</span>
           <input
@@ -116,20 +119,83 @@
           <strong>Change Model Code:</strong> {{ cpItem?.OPR_HREC_CHNMDLNM }}
         </div>
       </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <strong>WO#:</strong> {{ rfItem?.OPR_HREC_WON_CURRENT }}
+          <strong class="ms-3">Lot Size:</strong>
+          {{ rfItem?.OPR_HREC_LOTS }} pcs.
+          <div class="flex items-center gap-2">
+            <strong class="mr-2">Process:</strong>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.OPR_HREC_PROCSCP === 'CP'"
+            />
+            <span>CP</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.OPR_HREC_PROCSCP === 'RF1'"
+            />
+            <span>RF1</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.OPR_HREC_PROCSCP === 'RF2'"
+            />
+            <span>RF2</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.OPR_HREC_PROCSCP === 'RF'"
+            />
+            <span>RF</span>
+          </div>
+        </div>
+        <div>
+          <strong>WO#:</strong> {{ rfItem?.OPR_HREC_WON_CHANGE }}
+          <strong class="ms-3">Lot Size:</strong>
+          {{ rfItem?.OPR_HREC_LOTS_CHN }} pcs.
+          <div class="flex items-center gap-2">
+            <strong class="mr-2">Process:</strong>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.OPR_HREC_PROCSCP_CHN === 'CP'"
+            />
+            <span>CP</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.OPR_HREC_PROCSCP_CHN === 'RF1'"
+            />
+            <span>RF1</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.OPR_HREC_PROCSCP_CHN === 'RF2'"
+            />
+            <span>RF2</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.OPR_HREC_PROCSCP_CHN === 'RF'"
+            />
+            <span>RF</span>
+          </div>
+        </div>
+      </div>
 
       <div class="grid grid-cols-2 gap-4">
         <div>
           <strong>WO#:</strong> {{ cpItem?.OPR_HREC_WON_CURRENT }}
           <strong class="ms-3">Lot Size:</strong>
           {{ cpItem?.OPR_HREC_LOTS }} pcs.
-          <strong class="ms-3">Process:</strong> {{ cpItem?.OPR_HREC_PROCSCP }}
         </div>
         <div>
           <strong>WO#:</strong> {{ cpItem?.OPR_HREC_WON_CHANGE }}
           <strong class="ms-3">Lot Size:</strong>
           {{ cpItem?.OPR_HREC_LOTS_CHN }} pcs.
-          <strong class="ms-3">Process:</strong>
-          {{ cpItem?.OPR_HREC_PROCSCP_CHN }}
         </div>
       </div>
 
@@ -166,8 +232,30 @@
         </div>
       </div>
       <div class="grid grid-cols-2 gap-4">
-        <div><strong>Program name:</strong> {{ cpItem?.OPR_HREC_PRGMNM }}</div>
-        <div><strong>REV.:</strong> {{ cpItem?.OPR_HREC_PRGMREV }}</div>
+        <div>
+          <strong>Program name:</strong> {{ cpItem?.OPR_HREC_PRGMNM }}
+          <strong class="ms-3">Revision:</strong>
+          {{ cpItem?.OPR_HREC_REVNO }}
+        </div>
+        <div><strong>PCB Number:</strong> {{ cpItem?.OPR_HREC_PRGMREV }}</div>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-2 border border-gray-400 px-3 py-4 avoid-break-inside"
+    >
+      <div class="flex gap-4">
+        <div>
+          <strong>Start Machine: </strong>
+          <span>{{ cpItem?.TEC_CPHREC_STARTMCHN }}</span>
+        </div>
+        <div>
+          <strong>End Machine: </strong>
+          <span>{{ cpItem?.TEC_CPHREC_FINISHMCHN }}</span>
+        </div>
+        <div>
+          <strong>Date Change Model: </strong>
+          <span>{{ dateFormat(cpItem?.TEC_CPHREC_LSTDT) }}</span>
+        </div>
       </div>
     </div>
 
@@ -191,7 +279,7 @@
           <span>Not Use</span>
         </div>
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col" v-show="cpItem?.TEC_CPHREC_LOADINP === 'Use'">
         <div class="flex items-center gap-2">
           <strong>Pitching: </strong>
           <input
@@ -273,7 +361,7 @@
           <span>Not Use</span>
         </div>
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col" v-show="cpItem?.TEC_CPHREC_PCBCLEAN === 'Use'">
         <div class="flex items-center gap-2">
           <strong>Function: </strong>
 
@@ -304,7 +392,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="cpItem?.TEC_CPHREC_GLUE === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -312,7 +400,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_GLUE === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -322,34 +410,17 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_GLUE === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
           <div class="flex items-center gap-2">
             <strong> Head unit: </strong>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="cpItem?.TEC_CPHREC_GLUEHUNIT === 'Head no.1'"
-            />
-            <span>Head no.1</span>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="cpItem?.TEC_CPHREC_GLUEHUNIT === 'Head no.2'"
-            />
-            <span>Head no.2</span>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="cpItem?.TEC_CPHREC_GLUEHUNIT === 'Head no.3'"
-            />
-            <span>Head no.3</span>
+            <span>{{ cpItem?.TEC_CPHREC_GLUEHUNIT }}</span>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_GLUE === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -391,7 +462,10 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div
+          class="flex flex-col"
+          v-show="cpItem?.TEC_CPHREC_GLUESND === 'Use'"
+        >
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -399,7 +473,10 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div
+        class="grid grid-cols-2"
+        v-show="cpItem?.TEC_CPHREC_GLUESND === 'Use'"
+      >
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -410,34 +487,23 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div
+        class="grid grid-cols-2"
+        v-show="cpItem?.TEC_CPHREC_GLUESND === 'Use'"
+      >
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
           <div class="flex items-center gap-2">
             <strong> Head unit: </strong>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="cpItem?.TEC_CPHREC_GLUESNDHUNIT === 'Head no.1'"
-            />
-            <span>Head no.1</span>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="cpItem?.TEC_CPHREC_GLUESNDHUNIT === 'Head no.2'"
-            />
-            <span>Head no.2</span>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="cpItem?.TEC_CPHREC_GLUESNDHUNIT === 'Head no.3'"
-            />
-            <span>Head no.3</span>
+            <span>{{ cpItem?.TEC_CPHREC_GLUESNDHUNIT }}</span>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div
+        class="grid grid-cols-2"
+        v-show="cpItem?.TEC_CPHREC_GLUESND === 'Use'"
+      >
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -479,7 +545,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="cpItem?.TEC_CPHREC_MNTF === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -487,7 +553,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_MNTF === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -508,7 +574,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_MNTF === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -532,6 +598,12 @@
               :checked="cpItem?.TEC_CPHREC_MNTFSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.TEC_CPHREC_MNTFSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -556,7 +628,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="cpItem?.TEC_CPHREC_MNTSN === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -564,7 +636,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_MNTSN === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -585,7 +657,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_MNTSN === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -609,6 +681,12 @@
               :checked="cpItem?.TEC_CPHREC_MNTSNSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.TEC_CPHREC_MNTSNSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -633,7 +711,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="cpItem?.TEC_CPHREC_MNTTR === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -641,7 +719,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_MNTTR === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -662,7 +740,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_MNTTR === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -686,6 +764,12 @@
               :checked="cpItem?.TEC_CPHREC_MNTTRSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.TEC_CPHREC_MNTTRSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -710,7 +794,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="cpItem?.TEC_CPHREC_MNTFO === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -718,7 +802,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_MNTFO === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -739,7 +823,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="cpItem?.TEC_CPHREC_MNTFO === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -763,6 +847,12 @@
               :checked="cpItem?.TEC_CPHREC_MNTFOSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="cpItem?.TEC_CPHREC_MNTFOSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -787,7 +877,10 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div
+          class="flex flex-col"
+          v-show="cpItem?.TEC_CPHREC_MNTINSP === 'Use'"
+        >
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -816,7 +909,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="cpItem?.TEC_CPHREC_REFLOW === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -824,7 +917,10 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div
+        class="grid grid-cols-2"
+        v-show="cpItem?.TEC_CPHREC_REFLOW === 'Use'"
+      >
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -850,7 +946,10 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div
+        class="grid grid-cols-2"
+        v-show="cpItem?.TEC_CPHREC_REFLOW === 'Use'"
+      >
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -872,18 +971,21 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div
+        class="grid grid-cols-2"
+        v-show="cpItem?.TEC_CPHREC_REFLOW === 'Use'"
+      >
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
-          <strong>Temperature profile:</strong>
+          <strong>Temperature profile: (±5 °C)</strong>
 
           <table class="min-w-max text-sm table-auto">
             <thead>
               <tr>
                 <th class="p-2 text-left w-24 break-words">Channel</th>
-                <th class="p-2 text-left break-words">TOP Side</th>
-                <th class="p-2 text-left break-words">BOTTOM Side</th>
+                <th class="p-2 text-left break-words">TOP Side (°C)</th>
+                <th class="p-2 text-left break-words">BOTTOM Side (°C)</th>
               </tr>
             </thead>
 
@@ -980,6 +1082,12 @@
               </tr>
             </tbody>
           </table>
+          <div class="flex items-center gap-2">
+            <strong>Conveyor Speed: </strong>
+            <span
+              >{{ Number(cpItem?.TEC_CPHREC_CONV_SPD).toFixed(2) }} m/min</span
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -1024,7 +1132,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="cpItem?.TEC_CPHREC_AUTO === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -1053,7 +1161,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="cpItem?.TEC_CPHREC_NGSTCK === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Pitch setting: </strong>
             <input
@@ -1119,7 +1227,10 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div
+          class="flex flex-col"
+          v-show="cpItem?.TEC_CPHREC_UNLOADER === 'Use'"
+        >
           <div class="flex items-center gap-2">
             <strong> Pitch setting: </strong>
             <input
@@ -1169,12 +1280,12 @@ watch(
     await nextTick();
     generatePdf();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const GetUsersWeb = async () => {
   const res = await axios.get(
-    "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/users"
+    "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/users",
   );
   // console.log(res.data)
   employees.value = res.data.ALL;
@@ -1192,7 +1303,7 @@ onMounted(async () => {
 const generatePdf = async () => {
   if (!pdfTemplate.value) return;
 
-  const el = pdfTemplate.value;
+  const el = pdfTemplate.value.cloneNode(true) as HTMLElement;
   // ตั้งค่า element ให้แสดงผลก่อน render
   el.style.display = "block";
   el.style.position = "absolute";
@@ -1310,7 +1421,7 @@ const generatePdf = async () => {
       0,
       0,
       canvas.width,
-      drawHeightInPx
+      drawHeightInPx,
     );
 
     const imgData = pageCanvas.toDataURL("image/jpeg", 1.0);
@@ -1324,7 +1435,29 @@ const generatePdf = async () => {
   }
 
   // --- สิ้นสุดการทำงาน (เหมือนเดิม) ---
-  window.open(pdf.output("bloburl"), "_blank");
-  el.style.display = "none";
+  const blobUrl = pdf.output("bloburl");
+
+  const fileName = props.cpItem.OPR_HREC_WON_CHANGE
+    ? encodeURIComponent(props.cpItem.OPR_HREC_WON_CHANGE)
+    : "document";
+
+  window.open(`${blobUrl}#${fileName}.pdf`, "_blank");
+
+  document.body.removeChild(el);
+};
+
+const formatIssueNo = (issueNo: string) => {
+  const v = issueNo?.split("-").pop() ?? "";
+  const num = parseInt(v, 10);
+
+  if (isNaN(num)) return "";
+
+  // ถ้าน้อยกว่า 1000 → แสดง 3 หลัก
+  if (num < 1000) {
+    return String(num).padStart(3, "0");
+  }
+
+  // ถ้า 1000 ขึ้นไป → แสดงเต็ม
+  return String(num);
 };
 </script>

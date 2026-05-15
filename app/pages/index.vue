@@ -6,13 +6,20 @@
       color="light-blue-darken-1"
     >
       <v-tab value="one" class="font-weight-medium">OPERATOR FORM</v-tab>
-      <v-badge inline location="top right" color="red" :content="get_rec.length">
-        <v-tab value="two" class="font-weight-medium"> ตรวจสอบข้อมูลบันทึก </v-tab>
+      <v-badge
+        inline
+        location="top right"
+        color="red"
+        :content="get_rec.length"
+      >
+        <v-tab value="two" class="font-weight-medium">
+          ตรวจสอบข้อมูลบันทึก
+        </v-tab>
       </v-badge>
     </v-tabs>
 
     <v-card-text>
-      <v-virtual-scroll :items="[1]" height="550" item-height="auto">
+      <v-virtual-scroll :items="[1]" height="570" item-height="auto">
         <template #default>
           <v-tabs-window v-model="tab">
             <v-tabs-window-item value="one">
@@ -98,16 +105,39 @@
                       v-model="status"
                       :rules="StatusRules"
                     >
-                      <v-radio label="Urgent" value="Urgent" color="info"></v-radio>
-                      <v-radio label="Normal" value="Normal" color="info"></v-radio>
-                      <v-radio label="New line" value="New line" color="info"></v-radio>
-                      <v-radio label="New model" value="New model" color="info"></v-radio>
-                      <v-radio label="Over Plan" value="Over Plan" color="info"></v-radio>
+                      <v-radio
+                        label="Urgent"
+                        value="Urgent"
+                        color="info"
+                      ></v-radio>
+                      <v-radio
+                        label="Normal"
+                        value="Normal"
+                        color="info"
+                      ></v-radio>
+                      <v-radio
+                        label="New line"
+                        value="New line"
+                        color="info"
+                      ></v-radio>
+                      <v-radio
+                        label="New model"
+                        value="New model"
+                        color="info"
+                      ></v-radio>
+                      <v-radio
+                        label="Over Plan"
+                        value="Over Plan"
+                        color="info"
+                      ></v-radio>
                     </v-radio-group>
                   </span>
                 </v-row>
 
-                <v-card variant="flat" class="bg-blue-grey-lighten-5 w-[100%] pa-2">
+                <v-card
+                  variant="flat"
+                  class="bg-blue-grey-lighten-5 w-[100%] pa-2"
+                >
                   <div class="mb-3 text-center font-bold text-2xl underline">
                     Current Model
                   </div>
@@ -147,7 +177,7 @@
                       />
                     </v-col>
                     <v-col cols="6" md="3" v-if="!prs_check">
-                      <div class="mt-3 font-semibold">Process: (CP) เดิม</div>
+                      <div class="mt-3 font-semibold">Process: เดิม</div>
                       <v-radio-group
                         inline
                         class="gap-4"
@@ -159,7 +189,7 @@
                       </v-radio-group>
                     </v-col>
                     <v-col cols="6" md="3" v-if="prs_check">
-                      <div class="mt-3 font-semibold">Process: (RF) เดิม</div>
+                      <div class="mt-3 font-semibold">Process: เดิม</div>
                       <v-radio-group
                         inline
                         class="gap-4"
@@ -174,7 +204,10 @@
                     </v-col>
                   </v-row>
                 </v-card>
-                <v-card variant="flat" class="bg-green-accent-1 w-[100%] pa-2 mt-3">
+                <v-card
+                  variant="flat"
+                  class="bg-green-accent-1 w-[100%] pa-2 mt-3"
+                >
                   <div class="mb-3 text-center font-bold text-2xl underline">
                     Next Model
                   </div>
@@ -213,7 +246,9 @@
                       />
                     </v-col>
                     <v-col cols="6" md="3" v-if="!prs_check">
-                      <div class="mt-3 font-semibold">Process: (CP) เปลี่ยน</div>
+                      <div class="mt-3 font-semibold">
+                        Process: (CP) เปลี่ยน
+                      </div>
                       <v-radio-group
                         inline
                         class="gap-4"
@@ -225,7 +260,9 @@
                       </v-radio-group>
                     </v-col>
                     <v-col cols="6" md="3" v-if="prs_check">
-                      <div class="mt-3 font-semibold">Process: (RF) เปลี่ยน</div>
+                      <div class="mt-3 font-semibold">
+                        Process: (RF) เปลี่ยน
+                      </div>
                       <v-radio-group
                         inline
                         class="gap-4"
@@ -250,12 +287,18 @@
                       v-model="ecn"
                       :rules="ecnContolRules"
                     >
-                      <v-radio label="No Have" value="No Have" color="info"></v-radio>
+                      <v-radio
+                        label="No Have"
+                        value="No Have"
+                        color="info"
+                      ></v-radio>
                       <v-radio label="Have" value="Have" color="info"></v-radio>
                     </v-radio-group>
                   </v-col>
                   <v-col cols="4" md="3">
-                    <div class="mt-3 font-semibold" v-if="have_ecn">ECN Number :</div>
+                    <div class="mt-3 font-semibold" v-if="have_ecn">
+                      ECN Number :
+                    </div>
                     <v-text-field
                       v-if="have_ecn"
                       variant="outlined"
@@ -275,7 +318,10 @@
                 </v-row>
                 <v-row no-gutters class="gap-3">
                   <v-col cols="6" md="5">
-                    <div class="mt-3 font-semibold">Program Name :</div>
+                    <div class="mt-3 font-semibold">
+                      Program Name : (อ้างอิงจาก part list เครื่อง mounter
+                      เครื่องแรกเท่านั้น)
+                    </div>
                     <v-text-field
                       variant="outlined"
                       density="compact"
@@ -284,12 +330,13 @@
                     />
                   </v-col>
                   <v-col cols="6" md="5">
-                    <div class="mt-3 font-semibold">PCB No.:</div>
-                    <v-text-field
+                    <div class="mt-3 font-semibold">Revision No.:</div>
+                    <v-number-input
                       variant="outlined"
-                      density="compact"
-                      v-model="prog_rev"
-                      :rules="revInputRules"
+                      rounded="md"
+                      v-model="rev_no"
+                      :min="0"
+                      :rules="revNoRules"
                     />
                   </v-col>
                 </v-row>
@@ -304,6 +351,15 @@
                       item-title="BGCD"
                       :rules="customerRules"
                     ></v-select>
+                  </v-col>
+                  <v-col cols="6" md="5">
+                    <div class="mt-3 font-semibold">PCB No.:</div>
+                    <v-text-field
+                      variant="outlined"
+                      density="compact"
+                      v-model="prog_rev"
+                      :rules="revInputRules"
+                    />
                   </v-col>
                 </v-row>
                 <v-row no-gutters class="justify-center mt-10">
@@ -372,12 +428,32 @@
                         </div>
                       </div>
                     </td>
-                    <td style="min-width: 125px">{{ item.OPR_HREC_DATEREC }}</td>
-                    <td style="min-width: 200px">{{ item.OPR_HREC_ISSUENO }}</td>
+                    <td style="min-width: 125px">
+                      {{ findName(item.OPR_HREC_EMPNO) }}
+                    </td>
+                    <td style="min-width: 125px">
+                      {{ item.OPR_HREC_DATEREC }}
+                    </td>
+                    <td
+                      style="min-width: 125px"
+                      v-if="item.OPR_HREC_UPDATELSTDT === null"
+                    >
+                      {{ timeformat(item.OPR_HREC_LSTDT) }}
+                    </td>
+                    <td style="min-width: 125px" v-else>
+                      {{ timeformat(item.OPR_HREC_UPDATELSTDT) }}
+                    </td>
+                    <td style="min-width: 200px">
+                      {{ formatIssueNo(item.OPR_HREC_ISSUENO) }}
+                    </td>
                     <td style="min-width: 80px">{{ item.OPR_HREC_PROCS }}</td>
 
-                    <td style="min-width: 150px">{{ item.OPR_HREC_WON_CHANGE }}</td>
-                    <td style="min-width: 150px">{{ item.OPR_HREC_CHNMDLNM }}</td>
+                    <td style="min-width: 150px">
+                      {{ item.OPR_HREC_WON_CHANGE }}
+                    </td>
+                    <td style="min-width: 150px">
+                      {{ item.OPR_HREC_CHNMDLNM }}
+                    </td>
                   </tr>
                 </template>
               </v-data-table-virtual>
@@ -406,7 +482,9 @@
           <tbody>
             <tr>
               <th class="px-2 py-1 text-left border">เลขเอกสาร:</th>
-              <td class="px-2 py-1 border">{{ details.OPR_HREC_ISSUENO }}</td>
+              <td class="px-2 py-1 border">
+                {{ formatIssueNo(details.OPR_HREC_ISSUENO) }}
+              </td>
             </tr>
             <tr>
               <th class="px-2 py-1 text-left border">เอกสาร Process:</th>
@@ -426,11 +504,15 @@
 
             <tr>
               <th class="px-2 py-1 text-left border">Model เดิม:</th>
-              <td class="px-2 py-1 bg-red-200 border">{{ details.OPR_HREC_CURMDLNM }}</td>
+              <td class="px-2 py-1 bg-red-200 border">
+                {{ details.OPR_HREC_CURMDLNM }}
+              </td>
             </tr>
             <tr>
               <th class="px-2 py-1 text-left border">Lot Size เดิม:</th>
-              <td class="px-2 py-1 bg-red-200 border">{{ details.OPR_HREC_LOTS }}</td>
+              <td class="px-2 py-1 bg-red-200 border">
+                {{ details.OPR_HREC_LOTS }}
+              </td>
             </tr>
             <tr v-if="details.OPR_HREC_PROCS !== 'RF'">
               <th class="px-2 py-1 text-left border">Process CP เดิม:</th>
@@ -470,19 +552,27 @@
             </tr>
             <tr v-if="details.OPR_HREC_PROCS === 'RF'">
               <th class="px-2 py-1 text-left border">Process RF ของใหม่:</th>
-              <td class="px-2 py-1 border">{{ details.OPR_HREC_PROCS_RF_CHN }}</td>
+              <td class="px-2 py-1 border">
+                {{ details.OPR_HREC_PROCS_RF_CHN }}
+              </td>
             </tr>
             <tr>
-              <th class="px-2 py-1 text-left border">ECN Control (Have or No Have):</th>
+              <th class="px-2 py-1 text-left border">
+                ECN Control (Have or No Have):
+              </th>
               <td class="px-2 py-1 border">{{ details.OPR_HREC_CONTECN }}</td>
             </tr>
             <tr v-if="details.OPR_HREC_CONTECN === 'Have'">
               <th class="px-2 py-1 text-left border">ECN Number:</th>
-              <td class="px-2 py-1 border">{{ details.OPR_HREC_HAVECONTECN_NO }}</td>
+              <td class="px-2 py-1 border">
+                {{ details.OPR_HREC_HAVECONTECN_NO }}
+              </td>
             </tr>
             <tr v-if="details.OPR_HREC_CONTECN === 'Have'">
               <th class="px-2 py-1 text-left border">ECN Revision:</th>
-              <td class="px-2 py-1 border">{{ details.OPR_HREC_HAVECONTECN_REV }}</td>
+              <td class="px-2 py-1 border">
+                {{ details.OPR_HREC_HAVECONTECN_REV }}
+              </td>
             </tr>
             <tr>
               <th class="px-2 py-1 text-left border">Program Name:</th>
@@ -496,6 +586,16 @@
               <th class="px-2 py-1 text-left border">Customer:</th>
               <td class="px-2 py-1 border">{{ details.OPR_HREC_CUS }}</td>
             </tr>
+            <tr v-if="details.OPR_HREC_OPRATOR_RJ_STD == 1">
+              <th class="px-2 py-1 text-left border">Remark (Rejected):</th>
+              <td class="px-2 py-1 border">
+                {{ details.OPR_HREC_OPRATOR_RJ_REMARK }}
+              </td>
+            </tr>
+            <tr>
+              <th class="px-2 py-1 text-left border">Revision:</th>
+              <td class="px-2 py-1 border">{{ details.OPR_HREC_REVNO }}</td>
+            </tr>
           </tbody>
         </table>
 
@@ -508,7 +608,11 @@
               <h1>Edit (แก้ไข)</h1>
             </v-btn>
 
-            <v-btn rounded @click="Approve(details.OPR_HREC_ID)" color="success">
+            <v-btn
+              rounded
+              @click="Approve(details.OPR_HREC_ID)"
+              color="success"
+            >
               <template #prepend>
                 <v-icon icon="mdi mdi-check-underline-circle"></v-icon>
               </template>
@@ -534,6 +638,11 @@ import Swal from "sweetalert2";
 definePageMeta({
   layout: "custom",
 });
+
+/**
+ * TODO : Use cookie for set userinfo
+ */
+const userSession = useCookie("user_session");
 
 /**
  * TODO: สร้างตัวแปรรับค่าจาก Input
@@ -564,45 +673,49 @@ const customer = ref<string>("");
 const id = ref<string>("");
 const procs_cp = ref<string>("");
 const procs_cp_chn = ref<string>("");
+const rev_no = ref<number>(0);
 
 const tab = ref<string>("one");
 
 const issue_num = ref<string>("");
+const employees = ref<any>([]);
 
 const { public: config } = useRuntimeConfig();
 console.log(config.apiBase);
 
-const user = ref<any>(null);
+// const user = ref<any>(null);
 
-/**
- *  TODO: เรียกข้อมูล session ผู้ใช้งาน
- */
-const sessionUser = async () => {
-  const res = await axios.get(`${config.apiBase}/session/user`, {
-    withCredentials: true, // ต้องใส่ เพื่อส่ง laravel_session cookie
-  });
+// /**
+//  *  TODO: เรียกข้อมูล session ผู้ใช้งาน
+//  */
+// const sessionUser = async () => {
+//   const res = await axios.get(`${config.apiBase}/session/user`, {
+//     withCredentials: true, // ต้องใส่ เพื่อส่ง laravel_session cookie
+//   });
 
-  //   // location.reload();
-  //   if (res.data.redirect) {
-  //     // redirect browser ไปหน้า frontend
-  //     window.location.href = res.data.redirect;
-  //     return;
-  //   }
+//   //   // location.reload();
+//   //   if (res.data.redirect) {
+//   //     // redirect browser ไปหน้า frontend
+//   //     window.location.href = res.data.redirect;
+//   //     return;
+//   //   }
 
-  user.value = res.data;
-  console.log("user session:", user.value);
-  empno.value = user.value.empno;
-};
+//   user.value = res.data;
+//   console.log("user session:", user.value);
+//   empno.value = user.value.empno;
+// };
 
 /**
  * TODO: เก็บค่าตัวแปรแสดงหัวข้อตาราง (Headers)
  */
 const headers = ref<any>([
   { title: "Actions", align: "left" },
+
+  { title: "ผู้บันทึก", key: "OPR_HREC_EMPNO", align: "left" },
   { title: "วันที่บันทึก", key: "OPR_HREC_DATEREC", align: "left" },
+  { title: "เวลาล่าสุด", key: "OPR_HREC_UPDATELSTDT", align: "left" },
   { title: "เลขเอกสาร", key: "OPR_HREC_ISSUENO" },
   { title: "Process", key: "OPR_HREC_PROCS" },
-
   { title: "Work Order ใหม่", key: "OPR_HREC_WON_CHANGE" },
   { title: "Model ใหม่", key: "OPR_HREC_CHNMDLNM" },
 ]);
@@ -633,6 +746,7 @@ date_rec.value = dayjs().format("YYYY-MM-DD");
 /**
  * TODO: นำข้อมูลเข้าไปยัง api
  * !ทดสอบรับค่าจาก form
+ * ? function handleSubmitForm ใช้บันทึกข้อมูลและอัพเดทข้อมูล
  */
 const handleSubmitForm = async () => {
   if (prs.value === "CP") {
@@ -658,31 +772,86 @@ const handleSubmitForm = async () => {
         customer: customer.value,
         procs_cp: procs_cp.value,
         procs_cp_chn: procs_cp_chn.value,
+        rev_no: rev_no.value,
       };
       console.log(payload);
 
       if (id.value === "") {
-        const insert = await axios.post(
-          "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/oprform",
-          payload
-        );
+        // const insert = await axios.post(
+        //   "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/oprform",
+        //   payload,
+        //   {
+        //     timeout: 10000
+        //   }
+        // );
 
-        if (insert.data.status === true) {
+        // if (insert.data.status === true) {
+        //   Swal.fire({
+        //     title: "บันทึกเสร็จสมบูรณ์",
+        //     icon: "success",
+        //     timer: 1500,
+        //     showConfirmButton: false,
+        //   }).then(() => {
+        //     tab.value = "two";
+        //     GetRecordForm();
+        //   });
+        // }
+
+        try {
+          const insert = await axios.post(
+            "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/oprform",
+            payload,
+            {
+              timeout: 10000, // 10 วินาที
+            },
+          );
+
+          // --- กรณีสำเร็จ (Server ตอบกลับมาทันเวลา) ---
+          if (insert.data.status === true) {
+            Swal.fire({
+              title: "บันทึกเสร็จสมบูรณ์",
+              icon: "success",
+              timer: 1500,
+              showConfirmButton: false,
+            }).then(() => {
+              tab.value = "two";
+              GetRecordForm();
+            });
+          } else {
+            // กรณี status เป็น false
+            Swal.fire({
+              title: "เกิดข้อผิดพลาด",
+              text: insert.data.message || "ไม่สามารถบันทึกข้อมูลได้",
+              icon: "error",
+            });
+          }
+        } catch (error) {
+          // --- กรณีล้มเหลว (Timeout หรือ Server Error) ---
+          console.error("Error details:", error);
+
+          let errorMessage = "เกิดข้อผิดพลาดในการเชื่อมต่อ";
+
+          // เช็คว่าเป็นเพราะ Timeout หรือไม่
+          if (
+            error.code === "ECONNABORTED" ||
+            error.message.includes("timeout")
+          ) {
+            errorMessage = "พบปัญหาการเชื่อมต่อกรุณาลองใหม่อีกครั้ง";
+          }
+
           Swal.fire({
-            title: "บันทึกเสร็จสมบูรณ์",
-            icon: "success",
-            timer: 1500,
-            showConfirmButton: false,
-          }).then(() => {
-            tab.value = "two";
-            GetRecordForm();
+            title: "บันทึกล้มเหลว",
+            text: errorMessage,
+            icon: "error",
+            confirmButtonText: "ลองใหม่",
+            confirmButtonColor: "#127ABA",
           });
         }
       } else {
         const update = await axios.put(
           "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/oprform/update/" +
             id.value,
-          payload
+          payload,
         );
         // console.log(update.data)
         if (update.data.status === true) {
@@ -729,12 +898,13 @@ const handleSubmitForm = async () => {
         lots_chn: lots_chn.value,
         procs_rf_chn: procs_rf_chn.value,
         customer: customer.value,
+        rev_no: rev_no.value,
       };
       // console.log(payload)
       if (id.value === "") {
         const insert_rf = await axios.post(
           "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/oprform/rf",
-          payload
+          payload,
         );
         if (insert_rf.data.status === true) {
           Swal.fire({
@@ -751,7 +921,7 @@ const handleSubmitForm = async () => {
         const update_rf = await axios.put(
           "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/oprform/rf/update/" +
             id.value,
-          payload
+          payload,
         );
         if (update_rf.data.status === true) {
           Swal.fire({
@@ -776,11 +946,23 @@ const handleSubmitForm = async () => {
   }
 };
 
+const timeformat = (time: string) => {
+  return dayjs(time).format("DD/MM/YYYY ,HH:mm");
+};
+
+/**
+ * TODO: ฟังก์ชันเปิดดูรายละเอียด
+ */
+
 const OpenDetails = async (obj: any) => {
   // console.log(obj)
   dialog.value = true;
   details.value = obj;
 };
+
+/**
+ * TODO: ฟังก์ชันแก้ไขข้อมูล
+ */
 
 const goToEdit = (obj: any) => {
   tab.value = "one";
@@ -812,16 +994,26 @@ const goToEdit = (obj: any) => {
   dialog.value = false;
 };
 
+/**
+ * TODO: ฟังก์ชันอนุมัติข้อมูล
+ */
+
 const Approve = async (id: string) => {
   // console.log('Submit: ', id)
   try {
-    await axios.put("http://172.22.64.11/49_modelchange/49_mdlchn_api/api/submit/" + id);
+    await axios.put(
+      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/submit/" + id,
+    );
     dialog.value = false;
     GetRecordForm();
   } catch (error) {
     console.log(error);
   }
 };
+
+/**
+ * TODO: ฟังก์ชันลบข้อมูล
+ */
 
 const DeleteData = async (id: string) => {
   // console.log('Delete ID: ', id)
@@ -837,7 +1029,8 @@ const DeleteData = async (id: string) => {
 
     if (button.isConfirmed) {
       const res = await axios.delete(
-        "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/data/delete/" + id
+        "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/data/delete/" +
+          id,
       );
 
       if (res.data.status === true) {
@@ -859,6 +1052,13 @@ const DeleteData = async (id: string) => {
 
 /**
  * TODO: ฟังก์ชันรับค่าจาก api
+ * ? function SelectWonCur ใช้ตรวจสอบข้อมูล Won และ Model
+ * ? function SelectWonChn ใช้ตรวจสอบข้อมูล Won และ Model
+ * ? function fetchApiWon ใช้ดึงข้อมูล Won
+ * ? function fetchApiModelName ใช้ดึงข้อมูล Model
+ * ? function fetchApiCustomer ใช้ดึงข้อมูล Customer
+ * ? function fetchApiIssueNo ใช้ดึงข้อมูล IssueNo
+ * ? function GetRecordForm ใช้ดึงข้อมูล RecordForm
  */
 
 const SelectWonCur = async (value: string) => {
@@ -868,12 +1068,13 @@ const SelectWonCur = async (value: string) => {
       "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/checkmodel",
       {
         params: { value: won_cur_check },
-      }
+      },
     );
     check_model.value = res.data;
     // console.log('Select Won and Model: ', check_model.value)
     res.data.map((mo: any) => {
       cur_modelname.value = mo.MDLCD;
+      lots.value = Number(mo.WONQT);
     });
   } catch (error) {
     console.log(error);
@@ -886,7 +1087,7 @@ const SelectWonChn = async (value: string) => {
       "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/checkmodel",
       {
         params: { value: won_chn_check },
-      }
+      },
     );
     check_model.value = res.data;
     // console.log('Select Won and Model: ', check_model.value)
@@ -894,6 +1095,7 @@ const SelectWonChn = async (value: string) => {
       chn_modelname.value = mo.MDLCD;
       const model = chn_modelname.value.trim();
       prog_name.value = `${model}_`;
+      lots_chn.value = Number(mo.WONQT);
     });
   } catch (error) {
     console.log(error);
@@ -903,7 +1105,7 @@ const SelectWonChn = async (value: string) => {
 const fetchApiWon = async () => {
   try {
     const res = await axios.get(
-      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/won"
+      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/won",
     );
     won_list.value = res.data;
   } catch (error) {
@@ -914,7 +1116,7 @@ const fetchApiWon = async () => {
 const fetchApiModelName = async () => {
   try {
     const res = await axios.get(
-      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/modelname"
+      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/modelname",
     );
     model_name_list.value = res.data;
   } catch (error) {
@@ -925,7 +1127,7 @@ const fetchApiModelName = async () => {
 const fetchApiLine = async () => {
   try {
     const res = await axios.get(
-      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/line"
+      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/line",
     );
     line_list.value = res.data;
     // console.log(line_list.value)
@@ -937,7 +1139,7 @@ const fetchApiLine = async () => {
 const fetchApiCustomer = async () => {
   try {
     const res = await axios.get(
-      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/cus"
+      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/cus",
     );
     customer_list.value = res.data;
     // console.log(customer_list.value);
@@ -949,11 +1151,10 @@ const fetchApiCustomer = async () => {
 const fetchApiIssueNo = async () => {
   try {
     const res = await axios.get(
-      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/issueno"
+      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/issueno",
     );
     issue_num.value = res.data;
-    issue_no.value = (issue_num.value.split("-").pop() ?? "").slice(-3);
-    // console.log(customer_list.value);
+    issue_no.value = formatIssueNo(issue_num.value);
   } catch (error) {
     console.log(error);
   }
@@ -962,7 +1163,7 @@ const fetchApiIssueNo = async () => {
 const GetRecordForm = async () => {
   try {
     const res = await axios.get(
-      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/record/opr"
+      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/get/record/opr",
     );
     get_rec.value = res.data;
     // console.log(get_rec.value)
@@ -1058,16 +1259,53 @@ const customerRules: ((value: string) => true | string)[] = [
   },
 ];
 
+const revNoRules: ((value: number) => true | string)[] = [
+  (value) => {
+    if (value && value >= 0) return true;
+    return "Please input revision.";
+  },
+];
+
+const GetUsersWeb = async () => {
+  const res = await axios.get(
+    "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/users",
+  );
+  // console.log(res.data)
+  employees.value = res.data.ALL;
+};
+
+const findName = (empId: string) => {
+  const emp = employees.value.find((e: any) => e.MUSR_ID == empId);
+  return emp ? emp.MUSR_NAME : "ไม่พบชื่อ";
+};
+
+const formatIssueNo = (issueNo: string) => {
+  const v = issueNo?.split("-").pop() ?? "";
+  const num = parseInt(v, 10);
+
+  if (isNaN(num)) return "";
+
+  // ถ้าน้อยกว่า 1000 → แสดง 3 หลัก
+  if (num < 1000) {
+    return String(num).padStart(3, "0");
+  }
+
+  // ถ้า 1000 ขึ้นไป → แสดงเต็ม
+  return String(num);
+};
+
 /**
  * TODO: เรียกใช้งานฟังก์ชัน api
  */
 onMounted(async () => {
+  await GetUsersWeb();
   await fetchApiWon();
   await fetchApiModelName();
   await fetchApiLine();
   await GetRecordForm();
-  await sessionUser();
+  // await sessionUser();
   await fetchApiCustomer();
   await fetchApiIssueNo();
+  empno.value = userSession.value.empno;
 });
 </script>

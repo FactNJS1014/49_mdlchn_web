@@ -1,6 +1,9 @@
 <template>
   <!-- Template PDF hidden -->
   <div ref="pdfTemplate" class="hidden pa-2">
+    <p class="flex justify-end text-sm font-normal align-center">
+      F-AM-008 Rev.20
+    </p>
     <p class="flex justify-center text-lg font-bold align-center">
       MODEL CHANGE RECORD SMT PROCESS : {{ rfItem?.OPR_HREC_PROCS }}
     </p>
@@ -50,7 +53,7 @@
               }}
             </td>
             <td height="45px" class="text-center border border-black">
-              {{ findUserName(rfItem?.TEC_CPHREC_EMPNO) }}
+              {{ findUserName(rfItem?.TEC_RFHREC_EMPNO) }}
             </td>
             <td height="45px" class="text-center border border-black">
               {{ findUserName(rfItem?.OPR_HREC_EMPNO) }}
@@ -67,7 +70,7 @@
         </div>
         <div>
           <strong>Document No.:</strong>
-          {{ rfItem?.OPR_HREC_ISSUENO.split("-").pop().slice(-3) }}
+          {{ formatIssueNo(rfItem?.OPR_HREC_ISSUENO) }}
         </div>
       </div>
       <div class="grid grid-cols-1 gap-4">
@@ -88,7 +91,7 @@
           <input
             type="checkbox"
             class="w-4 h-4 mt-3"
-            :checked="rfItem?.OPR_HREC_STATUSMDL === 'New Line'"
+            :checked="rfItem?.OPR_HREC_STATUSMDL === 'New line'"
           />
           <span>New Line</span>
           <input
@@ -139,6 +142,12 @@
               :checked="rfItem?.OPR_HREC_PROCS_RF === 'RF2'"
             />
             <span>RF2</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="rfItem?.OPR_HREC_PROCS_RF === 'RF'"
+            />
+            <span>RF</span>
           </div>
         </div>
         <div>
@@ -165,6 +174,12 @@
               :checked="rfItem?.OPR_HREC_PROCS_RF_CHN === 'RF2'"
             />
             <span>RF2</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="rfItem?.OPR_HREC_PROCS_RF_CHN === 'RF'"
+            />
+            <span>RF</span>
           </div>
         </div>
       </div>
@@ -202,8 +217,30 @@
         </div>
       </div>
       <div class="grid grid-cols-2 gap-4">
-        <div><strong>Program name:</strong> {{ rfItem?.OPR_HREC_PRGMNM }}</div>
-        <div><strong>REV.:</strong> {{ rfItem?.OPR_HREC_PRGMREV }}</div>
+        <div>
+          <strong>Program name:</strong> {{ rfItem?.OPR_HREC_PRGMNM }}
+          <strong class="ms-3">Revision:</strong>
+          {{ rfItem?.OPR_HREC_REVNO }}
+        </div>
+        <div><strong>PCB Number:</strong> {{ rfItem?.OPR_HREC_PRGMREV }}</div>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-2 border border-gray-400 px-3 py-4 avoid-break-inside"
+    >
+      <div class="flex gap-4">
+        <div>
+          <strong>Start Machine: </strong>
+          <span>{{ rfItem?.TEC_RFHREC_STARTMCHN }}</span>
+        </div>
+        <div>
+          <strong>End Machine: </strong>
+          <span>{{ rfItem?.TEC_RFHREC_FINISHMCHN }}</span>
+        </div>
+        <div>
+          <strong>Date Change Model: </strong>
+          <span>{{ dateFormat(rfItem?.TEC_RFHREC_LSTDT) }}</span>
+        </div>
       </div>
     </div>
 
@@ -228,7 +265,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col">
+      <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_LOADINP === 'Use'">
         <div class="flex items-center gap-2">
           <strong>Pitching: </strong>
           <input
@@ -313,7 +350,7 @@
           <span>Not Use</span>
         </div>
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_PCBCLEAN === 'Use'">
         <div class="flex items-center gap-2">
           <strong>Function: </strong>
 
@@ -343,7 +380,7 @@
             <span>Not Use</span>
           </div>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_PRINT === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -352,34 +389,19 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_PRINT === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
           <div class="flex items-center gap-2">
             <strong> Metal Mask: </strong>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="rfItem?.TEC_RFHREC_PRINTMM === 'Referent PCB Number'"
-            />
-            <span>Referent PCB Number</span>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="rfItem?.TEC_RFHREC_PRINTREF === 'REF'"
-            />
-            <span>REF#</span>
-            <span class="ms-2">{{
-              rfItem?.TEC_RFHREC_PRINTMM === "REF"
-                ? rfItem?.TEC_RFHREC_PRINTREF
-                : ""
-            }}</span>
+
+            <span class="ms-2">{{ rfItem?.TEC_RFHREC_PRINTMMREF }}</span>
           </div>
         </div>
       </div>
 
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_PRINT === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -388,13 +410,13 @@
             <input
               type="checkbox"
               class="w-4 h-4 mt-3"
-              :checked="rfItem?.TEC_RFHREC_SQUE === 'Good condition'"
+              :checked="rfItem?.TEC_RFHREC_PRINTSQUE === 'Good condition'"
             />
             <span>Good condition</span>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_PRINT === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -415,7 +437,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_PRINT === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -447,7 +469,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_GLUE === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
 
@@ -455,7 +477,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_GLUE === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -487,7 +509,10 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div
+          class="flex flex-col"
+          v-show="rfItem?.TEC_RFHREC_SOLDERINSP === 'Use'"
+        >
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
             <span>{{ rfItem?.TEC_RFHREC_SOLDERPROG }}</span>
@@ -515,14 +540,14 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_MNTF === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
             <span>{{ rfItem?.TEC_RFHREC_MNTFPROG }}</span>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_MNTF === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -543,7 +568,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_MNTF === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -567,6 +592,12 @@
               :checked="rfItem?.TEC_RFHREC_MNTFSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="rfItem?.TEC_RFHREC_MNTFSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -591,14 +622,14 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_MNTSN === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
             <span>{{ rfItem?.TEC_RFHREC_MNTSNPROG }}</span>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_MNTSN === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -619,7 +650,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_MNTSN === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -643,6 +674,12 @@
               :checked="rfItem?.TEC_RFHREC_MNTSNSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="rfItem?.TEC_RFHREC_MNTSNSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -667,14 +704,14 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_MNTTR === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
             <span>{{ rfItem?.TEC_RFHREC_MNTTRPROG }}</span>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_MNTTR === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -695,7 +732,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_MNTTR === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -719,6 +756,12 @@
               :checked="rfItem?.TEC_RFHREC_MNTTRSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="rfItem?.TEC_RFHREC_MNTTRSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -743,14 +786,14 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_MNTFO === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
             <span>{{ rfItem?.TEC_RFHREC_MNTFOPROG }}</span>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_MNTFO === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -771,7 +814,7 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_MNTFO === 'Use'">
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -795,6 +838,12 @@
               :checked="rfItem?.TEC_RFHREC_MNTFOSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="rfItem?.TEC_RFHREC_MNTFOSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -819,7 +868,10 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div
+          class="flex flex-col"
+          v-show="rfItem?.TEC_RFHREC_MNTINSP === 'Use'"
+        >
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
             <span>{{ rfItem?.TEC_RFHREC_MNTINSPPROG }}</span>
@@ -847,14 +899,17 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_REFLOW === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
             <span>{{ rfItem?.TEC_RFHREC_REFLPROG }}</span>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div
+        class="grid grid-cols-2"
+        v-show="rfItem?.TEC_RFHREC_REFLOW === 'Use'"
+      >
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -880,7 +935,10 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div
+        class="grid grid-cols-2"
+        v-show="rfItem?.TEC_RFHREC_REFLOW === 'Use'"
+      >
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
@@ -902,18 +960,21 @@
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-2">
+      <div
+        class="grid grid-cols-2"
+        v-show="rfItem?.TEC_RFHREC_REFLOW === 'Use'"
+      >
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
-          <strong>Temperature profile:</strong>
+          <strong>Temperature profile: (±5 °C)</strong>
 
           <table class="min-w-max text-sm table-auto">
             <thead>
               <tr>
                 <th class="p-2 text-left w-24 break-words">Channel</th>
-                <th class="p-2 text-left break-words">TOP Side</th>
-                <th class="p-2 text-left break-words">BOTTOM Side</th>
+                <th class="p-2 text-left break-words">TOP Side (°C)</th>
+                <th class="p-2 text-left break-words">BOTTOM Side (°C)</th>
               </tr>
             </thead>
 
@@ -1010,6 +1071,12 @@
               </tr>
             </tbody>
           </table>
+          <div class="flex items-center gap-2">
+            <strong>Conveyor Speed: </strong>
+            <span
+              >{{ Number(rfItem?.TEC_RFHREC_CONV_SPD).toFixed(2) }} m/min</span
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -1054,7 +1121,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_AUTO === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Program name: </strong>
             <span>{{ rfItem?.TEC_RFHREC_AUTOPROG }}</span>
@@ -1082,7 +1149,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" v-show="rfItem?.TEC_RFHREC_NGSTCK === 'Use'">
           <div class="flex items-center gap-2">
             <strong> Pitch setting: </strong>
             <input
@@ -1148,7 +1215,10 @@
           </div>
         </div>
 
-        <div class="flex flex-col">
+        <div
+          class="flex flex-col"
+          v-show="rfItem?.TEC_RFHREC_UNLOADER === 'Use'"
+        >
           <div class="flex items-center gap-2">
             <strong> Pitch setting: </strong>
             <input
@@ -1198,12 +1268,12 @@ watch(
     await nextTick();
     generatePdf();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const GetUsersWeb = async () => {
   const res = await axios.get(
-    "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/users"
+    "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/users",
   );
   // console.log(res.data)
   employees.value = res.data.ALL;
@@ -1339,7 +1409,7 @@ const generatePdf = async () => {
       0,
       0,
       canvas.width,
-      drawHeightInPx
+      drawHeightInPx,
     );
 
     const imgData = pageCanvas.toDataURL("image/jpeg", 1.0);
@@ -1353,7 +1423,29 @@ const generatePdf = async () => {
   }
 
   // --- สิ้นสุดการทำงาน (เหมือนเดิม) ---
-  window.open(pdf.output("bloburl"), "_blank");
+  const blobUrl = pdf.output("bloburl");
+
+  const fileName = props.rfItem.OPR_HREC_WON_CHANGE
+    ? encodeURIComponent(props.rfItem.OPR_HREC_WON_CHANGE)
+    : "document";
+
+  window.open(`${blobUrl}#${fileName}.pdf`, "_blank");
+
   el.style.display = "none";
+};
+
+const formatIssueNo = (issueNo: string) => {
+  const v = issueNo?.split("-").pop() ?? "";
+  const num = parseInt(v, 10);
+
+  if (isNaN(num)) return "";
+
+  // ถ้าน้อยกว่า 1000 → แสดง 3 หลัก
+  if (num < 1000) {
+    return String(num).padStart(3, "0");
+  }
+
+  // ถ้า 1000 ขึ้นไป → แสดงเต็ม
+  return String(num);
 };
 </script>

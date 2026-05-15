@@ -12,7 +12,7 @@
         </div>
         <div>
           <strong>Document No.:</strong>
-          {{ dataItem?.OPR_HREC_ISSUENO.split("-").pop().slice(-3) }}
+          {{ formatIssueNo(dataItem?.OPR_HREC_ISSUENO) }}
         </div>
       </div>
       <div class="grid grid-cols-1 gap-4">
@@ -33,7 +33,7 @@
           <input
             type="checkbox"
             class="w-4 h-4 mt-3"
-            :checked="dataItem?.OPR_HREC_STATUSMDL === 'New Line'"
+            :checked="dataItem?.OPR_HREC_STATUSMDL === 'New line'"
           />
           <span>New Line</span>
           <input
@@ -84,6 +84,12 @@
               :checked="dataItem?.OPR_HREC_PROCS_RF === 'RF2'"
             />
             <span>RF2</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="dataItem?.OPR_HREC_PROCS_RF === 'RF'"
+            />
+            <span>RF</span>
           </div>
         </div>
         <div>
@@ -110,6 +116,12 @@
               :checked="dataItem?.OPR_HREC_PROCS_RF_CHN === 'RF2'"
             />
             <span>RF2</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="dataItem?.OPR_HREC_PROCS_RF_CHN === 'RF'"
+            />
+            <span>RF</span>
           </div>
         </div>
       </div>
@@ -149,8 +161,28 @@
       <div class="grid grid-cols-2 gap-4">
         <div>
           <strong>Program name:</strong> {{ dataItem?.OPR_HREC_PRGMNM }}
+          <strong class="ms-3">Revision:</strong>
+          {{ dataItem?.OPR_HREC_REVNO }}
         </div>
-        <div><strong>REV.:</strong> {{ dataItem?.OPR_HREC_PRGMREV }}</div>
+        <div><strong>PCB Number:</strong> {{ dataItem?.OPR_HREC_PRGMREV }}</div>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-2 border border-gray-400 px-3 py-4 avoid-break-inside"
+    >
+      <div class="flex gap-4">
+        <div>
+          <strong>Start Machine: </strong>
+          <span>{{ dataItem?.TEC_RFHREC_STARTMCHN }}</span>
+        </div>
+        <div>
+          <strong>End Machine: </strong>
+          <span>{{ dataItem?.TEC_RFHREC_FINISHMCHN }}</span>
+        </div>
+        <div>
+          <strong>Date Change Model: </strong>
+          <span>{{ dateFormat(dataItem?.TEC_RFHREC_LSTDT) }}</span>
+        </div>
       </div>
     </div>
 
@@ -305,23 +337,8 @@
         <div class="flex flex-col">
           <div class="flex items-center gap-2">
             <strong> Metal Mask: </strong>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="dataItem?.TEC_RFHREC_PRINTMM === 'Referent PCB Number'"
-            />
-            <span>Referent PCB Number</span>
-            <input
-              type="checkbox"
-              class="w-4 h-4 mt-3"
-              :checked="dataItem?.TEC_RFHREC_PRINTREF === 'REF'"
-            />
-            <span>REF#</span>
-            <span class="ms-2">{{
-              dataItem?.TEC_RFHREC_PRINTMM === "REF"
-                ? dataItem?.TEC_RFHREC_PRINTREF
-                : ""
-            }}</span>
+
+            <span class="ms-2">{{ dataItem?.TEC_RFHREC_PRINTMMREF }}</span>
           </div>
         </div>
       </div>
@@ -335,7 +352,7 @@
             <input
               type="checkbox"
               class="w-4 h-4 mt-3"
-              :checked="dataItem?.TEC_RFHREC_SQUE === 'Good condition'"
+              :checked="dataItem?.TEC_RFHREC_PRINTSQUE === 'Good condition'"
             />
             <span>Good condition</span>
           </div>
@@ -514,6 +531,12 @@
               :checked="dataItem?.TEC_RFHREC_MNTFSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="dataItem?.TEC_RFHREC_MNTFSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -590,6 +613,12 @@
               :checked="dataItem?.TEC_RFHREC_MNTSNSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="dataItem?.TEC_RFHREC_MNTSNSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -666,6 +695,12 @@
               :checked="dataItem?.TEC_RFHREC_MNTTRSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="dataItem?.TEC_RFHREC_MNTTRSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -742,6 +777,12 @@
               :checked="dataItem?.TEC_RFHREC_MNTFOSUPT === 'Sponge'"
             />
             <span>Sponge</span>
+            <input
+              type="checkbox"
+              class="w-4 h-4 mt-3"
+              :checked="dataItem?.TEC_RFHREC_MNTFOSUPT === 'Not Use'"
+            />
+            <span>Not Use</span>
           </div>
         </div>
       </div>
@@ -853,14 +894,14 @@
         <div class="flex flex-col"></div>
 
         <div class="flex flex-col">
-          <strong>Temperature profile:</strong>
+          <strong>Temperature profile: (±5 °C)</strong>
 
           <table class="min-w-max text-sm table-auto">
             <thead>
               <tr>
                 <th class="p-2 text-left w-24 break-words">Channel</th>
-                <th class="p-2 text-left break-words">TOP Side</th>
-                <th class="p-2 text-left break-words">BOTTOM Side</th>
+                <th class="p-2 text-left break-words">TOP Side (°C)</th>
+                <th class="p-2 text-left break-words">BOTTOM Side (°C)</th>
               </tr>
             </thead>
 
@@ -957,6 +998,15 @@
               </tr>
             </tbody>
           </table>
+          <div class="flex items-center gap-2">
+            <strong>Conveyor Speed: </strong>
+            <span
+              >{{
+                Number(dataItem?.TEC_RFHREC_CONV_SPD).toFixed(2)
+              }}
+              m/min</span
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -1144,7 +1194,7 @@ watch(
     await nextTick();
     generatePdf();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const generatePdf = async () => {
@@ -1268,7 +1318,7 @@ const generatePdf = async () => {
       0,
       0,
       canvas.width,
-      drawHeightInPx
+      drawHeightInPx,
     );
 
     const imgData = pageCanvas.toDataURL("image/jpeg", 1.0);
@@ -1284,5 +1334,19 @@ const generatePdf = async () => {
   // --- สิ้นสุดการทำงาน (เหมือนเดิม) ---
   window.open(pdf.output("bloburl"), "_blank");
   el.style.display = "none";
+};
+const formatIssueNo = (issueNo: string) => {
+  const v = issueNo?.split("-").pop() ?? "";
+  const num = parseInt(v, 10);
+
+  if (isNaN(num)) return "";
+
+  // ถ้าน้อยกว่า 1000 → แสดง 3 หลัก
+  if (num < 1000) {
+    return String(num).padStart(3, "0");
+  }
+
+  // ถ้า 1000 ขึ้นไป → แสดงเต็ม
+  return String(num);
 };
 </script>

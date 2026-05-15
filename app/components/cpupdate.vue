@@ -19,15 +19,14 @@
       </div>
 
       <div class="px-3 py-2 border rounded-lg">
-        <h1>Work Order of Change: {{ won_chn }}</h1>
+        <h1>Work Order of Change: {{ won_select }}</h1>
       </div>
       <div class="px-3 py-2 border rounded-lg">
-        <h1>Model Name of Change : {{ model_chn }}</h1>
+        <h1>Model Name of Change : {{ model_chn_select }}</h1>
       </div>
 
       <input type="hidden" v-model="hrec_cp_id" />
     </div>
-
     <div class="mt-2 mb-2 flex gap-2">
       <div>
         <div class="text-md font-semibold">Start Machine</div>
@@ -649,7 +648,7 @@
         <template #prepend>
           <v-icon class="mdi mdi-content-save"></v-icon>
         </template>
-        <h1 class="text-md">Save</h1>
+        <h1 class="text-md">Update</h1>
       </v-btn>
     </v-row>
   </v-form>
@@ -661,12 +660,10 @@ import Swal from "sweetalert2";
 
 const props = defineProps({
   id: String,
-  won_chn: String,
-  model_chn: String,
-  empno: String,
-  prgnm: String,
-  cus: String,
-  pcbno: String,
+  data_edit: Object,
+  won_select: String,
+  model_chn_select: String,
+  edit_show_dialog: Boolean,
 });
 
 const hrec_cp_id = ref<string>("");
@@ -684,11 +681,11 @@ const trace_inp = ref<string>("");
 const func = ref<string[]>([]);
 const cln_inp = ref<string>("");
 const etc_details = ref<string>("");
-const prg_nm = ref<string>(props.prgnm || "");
+const prg_nm = ref<string>("");
 const glu_num = ref<string>("");
 const headunit = ref<string[]>([]);
 const bpst_detail = ref<string>("");
-const prg2_nm = ref<string>(props.prgnm || "");
+const prg2_nm = ref<string>("");
 const glu2_num = ref<string>("");
 const headunit2 = ref<string[]>([]);
 const bpst2_detail = ref<string>("");
@@ -700,22 +697,22 @@ const mounter_inp = ref<string>("");
 const mounter2_inp = ref<string>("");
 const mounter3_inp = ref<string>("");
 const mounter4_inp = ref<string>("");
-const prg_mount1 = ref<string>(props.prgnm || "");
+const prg_mount1 = ref<string>("");
 const noz_mount1 = ref<string>("");
 const sup_mount1 = ref<string>("");
-const prg_mount2 = ref<string>(props.prgnm || "");
+const prg_mount2 = ref<string>("");
 const noz_mount2 = ref<string>("");
 const sup_mount2 = ref<string>("");
-const prg_mount3 = ref<string>(props.prgnm || "");
+const prg_mount3 = ref<string>("");
 const noz_mount3 = ref<string>("");
 const sup_mount3 = ref<string>("");
-const prg_mount4 = ref<string>(props.prgnm || "");
+const prg_mount4 = ref<string>("");
 const noz_mount4 = ref<string>("");
 const sup_mount4 = ref<string>("");
 const mount_inps = ref<string>("");
-const prg_inspct = ref<string>(props.prgnm || "");
+const prg_inspct = ref<string>("");
 const reflow_std = ref<string>("");
-const prog_reflow = ref<string>(props.pcbno || "");
+const prog_reflow = ref<string>("");
 const oxygen_reflow_std = ref<string>("");
 const oxygen_use = ref<string>("");
 const sup_reflow_std = ref<string>("");
@@ -742,15 +739,15 @@ const temp_btm_ch10 = ref<number>(0);
 const temp_conveyor_speed = ref<number>(0);
 const cooling_std = ref<string>("");
 const auto_inps = ref<string>("");
-const prg_auto = ref<string>(props.prgnm || "");
+const prg_auto = ref<string>("");
 const ng_stock_std = ref<string>("");
 const ng_stock_pitch = ref<string>("");
 const trace_inp_std = ref<string>("");
 const unloader_std = ref<string>("");
 const unloader_pitch = ref<string>("");
-const finish_machine = ref<string>("");
+const empno = ref<string>("");
 const start_machine = ref<string>("");
-
+const finish_machine = ref<string>("");
 const funcPCB = ref<{ name: string }[]>([
   { name: "Air blow" },
   { name: "Sticky" },
@@ -762,26 +759,6 @@ const HeadUnit = ref<{ name: string }[]>([
   { name: "Head no.2" },
   { name: "Head no.3" },
 ]);
-watch(
-  () => props.prgnm,
-  (newValue) => {
-    prg_nm.value = newValue || "";
-    prg2_nm.value = newValue || "";
-    prg_inspct.value = newValue || "";
-    prg_auto.value = newValue || "";
-    prg_mount1.value = newValue || "";
-    prg_mount2.value = newValue || "";
-    prg_mount3.value = newValue || "";
-    prg_mount4.value = newValue || "";
-  },
-);
-
-watch(
-  () => props.pcbno,
-  (newValue) => {
-    prog_reflow.value = newValue || "";
-  },
-);
 
 const db_glue = ref<string[]>([]);
 
@@ -808,7 +785,6 @@ const oxygen_std_use = computed<boolean>(
 const auto_inps_std = computed<boolean>(() => auto_inps.value === "Use");
 const ng_stock_std_use = computed<boolean>(() => ng_stock_std.value === "Use");
 const unloader_std_use = computed<boolean>(() => unloader_std.value === "Use");
-const empno = computed<string>(() => props.empno || "");
 
 id_cp.value = props.id || "";
 // console.log(obj.TEC_CPHREC_ID);
@@ -944,30 +920,111 @@ const handleCPSubmit = async () => {
       temp_btm_ch9: temp_btm_ch9.value,
       temp_btm_ch10: temp_btm_ch10.value,
       temp_conveyor_speed: temp_conveyor_speed.value,
-      start_machine: start_machine.value,
       finish_machine: finish_machine.value,
-      empno: empno.value,
+      start_machine: start_machine.value,
       id: props.id,
     };
 
-    const res = await axios.post(
-      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/cpinsert",
+    const res = await axios.put(
+      "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/cpupdate",
       payload,
     );
-
     if (res.data.status === true) {
-      Swal.fire({
-        icon: "success",
-        title: "บันทึกข้อมูลสำเร็จ",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      window.location.reload();
     }
 
     console.log(payload);
   } catch (error) {
     console.log(error);
   }
+};
+
+const obj_rj = ref<any>({});
+watch(
+  () => props.data_edit,
+  (val) => {
+    if (val) {
+      obj_rj.value = val;
+      console.log("obj_rj:", obj_rj.value);
+    }
+  },
+);
+
+const showDataUpdate = () => {
+  load_inp.value = obj_rj.value.TEC_CPHREC_LOADINP || "";
+  pitch.value = obj_rj.value.TEC_CPHREC_LOADINPPITCH || "";
+  stack_inp.value = obj_rj.value.TEC_CPHREC_STACK || "";
+  trace_inp.value = obj_rj.value.TEC_CPHREC_TRACEINP || "";
+  cln_inp.value = obj_rj.value.TEC_CPHREC_PCBCLEAN || "";
+  func.value = obj_rj.value.TEC_CPHREC_PCBCLNFUNC || "";
+  glu_inp.value = obj_rj.value.TEC_CPHREC_GLUE || "";
+  prg_nm.value = obj_rj.value.TEC_CPHREC_GLUEPROG || "";
+  glu_num.value = obj_rj.value.TEC_CPHREC_GLUENUM || "";
+  headunit.value = obj_rj.value.TEC_CPHREC_GLUEHUNIT || "";
+  bpst_detail.value = obj_rj.value.TEC_CPHREC_GLUESTDNOT || "";
+  confirm_bpst.value = obj_rj.value.TEC_CPHREC_GLUESTDOK || "";
+  glu2_inp.value = obj_rj.value.TEC_CPHREC_GLUESND || "";
+  prg2_nm.value = obj_rj.value.TEC_CPHREC_GLUESNDPROG || "";
+  glu2_num.value = obj_rj.value.TEC_CPHREC_GLUESNDNUM || "";
+  headunit2.value = obj_rj.value.TEC_CPHREC_GLUESNDHUNIT || "";
+  bpst2_detail.value = obj_rj.value.TEC_CPHREC_GLUESNDNOT || "";
+  confirm_bpst2.value = obj_rj.value.TEC_CPHREC_GLUESNDOK || "";
+  mounter_inp.value = obj_rj.value.TEC_CPHREC_MNTF || "";
+  prg_mount1.value = obj_rj.value.TEC_CPHREC_MNTFPROG || "";
+  noz_mount1.value = obj_rj.value.TEC_CPHREC_MNTFNOZ || "";
+  sup_mount1.value = obj_rj.value.TEC_CPHREC_MNTFSUPT || "";
+  mounter2_inp.value = obj_rj.value.TEC_CPHREC_MNTSN || "";
+  prg_mount2.value = obj_rj.value.TEC_CPHREC_MNTSNPROG || "";
+  noz_mount2.value = obj_rj.value.TEC_CPHREC_MNTSNNOZ || "";
+  sup_mount2.value = obj_rj.value.TEC_CPHREC_MNTSNSUPT || "";
+  mounter3_inp.value = obj_rj.value.TEC_CPHREC_MNTTR || "";
+  prg_mount3.value = obj_rj.value.TEC_CPHREC_MNTTRPROG || "";
+  noz_mount3.value = obj_rj.value.TEC_CPHREC_MNTTRNOZ || "";
+  sup_mount3.value = obj_rj.value.TEC_CPHREC_MNTTRSUPT || "";
+  mounter4_inp.value = obj_rj.value.TEC_CPHREC_MNTFO || "";
+  prg_mount4.value = obj_rj.value.TEC_CPHREC_MNTFOPROG || "";
+  noz_mount4.value = obj_rj.value.TEC_CPHREC_MNTFONOZ || "";
+  sup_mount4.value = obj_rj.value.TEC_CPHREC_MNTFOSUPT || "";
+  mount_inps.value = obj_rj.value.TEC_CPHREC_MNTINSP || "";
+  prg_inspct.value = obj_rj.value.TEC_CPHREC_MNTINSPPROG || "";
+  reflow_std.value = obj_rj.value.TEC_CPHREC_REFLOW || "";
+  prog_reflow.value = obj_rj.value.TEC_CPHREC_REFLPROG || "";
+  oxygen_reflow_std.value = obj_rj.value.TEC_CPHREC_REFLOXYGEN || "";
+  oxygen_use.value = obj_rj.value.TEC_CPHREC_REFLUSEOO || "";
+  sup_reflow_std.value = obj_rj.value.TEC_CPHREC_REFLPCBSUPT || "";
+  cooling_std.value = obj_rj.value.TEC_CPHREC_PCBCOOL || "";
+  auto_inps.value = obj_rj.value.TEC_CPHREC_AUTO || "";
+  prg_auto.value = obj_rj.value.TEC_CPHREC_AUTOPROG || "";
+  ng_stock_std.value = obj_rj.value.TEC_CPHREC_NGSTCK || "";
+  ng_stock_pitch.value = obj_rj.value.TEC_CPHREC_NGSTCKPITCH || "";
+  trace_inp_std.value = obj_rj.value.TEC_CPHREC_TRACE || "";
+  unloader_std.value = obj_rj.value.TEC_CPHREC_UNLOADER || "";
+  unloader_pitch.value = obj_rj.value.TEC_CPHREC_UNLOADERPITCH || "";
+  temp_top_ch1.value = Number(obj_rj.value.TEC_CPHREC_TOP_TEMPCH1 || "");
+  temp_top_ch2.value = Number(obj_rj.value.TEC_CPHREC_TOP_TEMPCH2 || "");
+  temp_top_ch3.value = Number(obj_rj.value.TEC_CPHREC_TOP_TEMPCH3 || "");
+  temp_top_ch4.value = Number(obj_rj.value.TEC_CPHREC_TOP_TEMPCH4 || "");
+  temp_top_ch5.value = Number(obj_rj.value.TEC_CPHREC_TOP_TEMPCH5 || "");
+  temp_top_ch6.value = Number(obj_rj.value.TEC_CPHREC_TOP_TEMPCH6 || "");
+  temp_top_ch7.value = Number(obj_rj.value.TEC_CPHREC_TOP_TEMPCH7 || "");
+  temp_top_ch8.value = Number(obj_rj.value.TEC_CPHREC_TOP_TEMPCH8 || "");
+  temp_top_ch9.value = Number(obj_rj.value.TEC_CPHREC_TOP_TEMPCH9 || "");
+  temp_top_ch10.value = Number(obj_rj.value.TEC_CPHREC_TOP_TEMPCH10 || "");
+  temp_btm_ch1.value = Number(obj_rj.value.TEC_CPHREC_BTM_TEMPCH1 || "");
+  temp_btm_ch2.value = Number(obj_rj.value.TEC_CPHREC_BTM_TEMPCH2 || "");
+  temp_btm_ch3.value = Number(obj_rj.value.TEC_CPHREC_BTM_TEMPCH3 || "");
+  temp_btm_ch4.value = Number(obj_rj.value.TEC_CPHREC_BTM_TEMPCH4 || "");
+  temp_btm_ch5.value = Number(obj_rj.value.TEC_CPHREC_BTM_TEMPCH5 || "");
+  temp_btm_ch6.value = Number(obj_rj.value.TEC_CPHREC_BTM_TEMPCH6 || "");
+  temp_btm_ch7.value = Number(obj_rj.value.TEC_CPHREC_BTM_TEMPCH7 || "");
+  temp_btm_ch8.value = Number(obj_rj.value.TEC_CPHREC_BTM_TEMPCH8 || "");
+  temp_btm_ch9.value = Number(obj_rj.value.TEC_CPHREC_BTM_TEMPCH9 || "");
+  temp_btm_ch10.value = Number(obj_rj.value.TEC_CPHREC_BTM_TEMPCH10 || "");
+  temp_conveyor_speed.value = Number(obj_rj.value.TEC_CPHREC_CONV_SPD || "");
+  etc_details.value = obj_rj.value.TEC_CPHREC_PCBLNETC_DTL || "";
+  empno.value = obj_rj.value.TEC_CPHREC_EMPNO || "";
+  start_machine.value = obj_rj.value.TEC_CPHREC_STARTMCHN || "";
+  finish_machine.value = obj_rj.value.TEC_CPHREC_FINISHMCHN || "";
 };
 
 const fetchDB = async () => {
@@ -986,4 +1043,16 @@ onMounted(() => {
 
   fetchDB();
 });
+
+watch(
+  () => props.data_edit,
+  (val) => {
+    if (val) {
+      obj_rj.value = val;
+
+      showDataUpdate();
+    }
+  },
+  { immediate: true },
+);
 </script>
