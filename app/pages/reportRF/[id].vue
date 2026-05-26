@@ -44,15 +44,16 @@
           <tr>
             <td class="border border-gray-300">
               <div class="flex justify-center items-center">
-                <div
-                  class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center"
-                >
-                  <div class="tracking-wide text-xs text-blue-900 font-bold">
+                <div class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center">
+                  <div class="tracking-wide text-xs text-blue-900 font-bold" v-if="levels[3]?.empapp !== null">
                     {{
                       (findUserName(levels[3]?.empapp) || "")
                         .trim()
                         .split(/\s+/)[0]
                     }}
+                  </div>
+                  <div v-else class="tracking-wide text-xs text-blue-900 font-bold">
+                    ไม่มีข้อมูล
                   </div>
                   <hr class="w-full border-blue-600 my-1" />
                   <div class="text-xs text-blue-900 text-center font-bold">
@@ -78,15 +79,16 @@
             </td>
             <td class="border border-gray-300">
               <div class="flex justify-center items-center">
-                <div
-                  class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center"
-                >
-                  <div class="tracking-wide text-xs text-blue-900 font-bold">
+                <div class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center">
+                  <div class="tracking-wide text-xs text-blue-900 font-bold" v-if="levels[2]?.empapp !== null">
                     {{
                       (findUserName(levels[2]?.empapp) || "")
                         .trim()
                         .split(/\s+/)[0]
                     }}
+                  </div>
+                  <div v-else class="tracking-wide text-xs text-blue-900 font-bold">
+                    ไม่มีข้อมูล
                   </div>
                   <hr class="w-full border-blue-600 my-1" />
                   <div class="text-xs text-blue-900 text-center font-bold">
@@ -111,15 +113,16 @@
             </td>
             <td class="border border-gray-300">
               <div class="flex justify-center items-center">
-                <div
-                  class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center"
-                >
-                  <div class="tracking-wide text-xs text-blue-900 font-bold">
+                <div class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center">
+                  <div class="tracking-wide text-xs text-blue-900 font-bold" v-if="levels[1]?.empapp !== null">
                     {{
                       (findUserName(levels[1]?.empapp) || "")
                         .trim()
                         .split(/\s+/)[0]
                     }}
+                  </div>
+                  <div v-else class="tracking-wide text-xs text-blue-900 font-bold">
+                    ไม่มีข้อมูล
                   </div>
                   <hr class="w-full border-blue-600 my-1" />
                   <div class="text-xs text-blue-900 text-center font-bold">
@@ -142,20 +145,18 @@
                 </div>
               </div> -->
             </td>
-            <td
-              class="border border-gray-300"
-              v-if="listData?.OPR_HREC_PROCS === 'CP'"
-            >
+            <td class="border border-gray-300" v-if="listData?.OPR_HREC_PROCS === 'CP'">
               <div class="flex justify-center items-center">
-                <div
-                  class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center"
-                >
-                  <div class="tracking-wide text-xs text-blue-900 font-bold">
+                <div class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center">
+                  <div class="tracking-wide text-xs text-blue-900 font-bold" v-if="listData?.TEC_CPHREC_EMPNO !== null">
                     {{
                       (findUserName(listData?.TEC_CPHREC_EMPNO) || "")
                         .trim()
                         .split(/\s+/)[0]
                     }}
+                  </div>
+                  <div v-else class="tracking-wide text-xs text-blue-900 font-bold">
+                    ไม่มีข้อมูล
                   </div>
                   <hr class="w-full border-blue-600 my-1" />
                   <div class="text-xs text-blue-900 text-center font-bold">
@@ -182,20 +183,18 @@
                 </div>
               </div> -->
             </td>
-            <td
-              class="border border-gray-300"
-              v-if="listData?.OPR_HREC_PROCS === 'RF'"
-            >
+            <td class="border border-gray-300" v-if="listData?.OPR_HREC_PROCS === 'RF'">
               <div class="flex justify-center items-center">
-                <div
-                  class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center"
-                >
-                  <div class="tracking-wide text-xs text-blue-900 font-bold">
+                <div class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center">
+                  <div class="tracking-wide text-xs text-blue-900 font-bold" v-if="listData?.TEC_RFHREC_EMPNO !== null">
                     {{
                       (findUserName(listData?.TEC_RFHREC_EMPNO) || "")
                         .trim()
                         .split(/\s+/)[0]
                     }}
+                  </div>
+                  <div v-else class="tracking-wide text-xs text-blue-900 font-bold">
+                    ไม่มีข้อมูล
                   </div>
                   <hr class="w-full border-blue-600 my-1" />
                   <div class="text-xs text-blue-900 text-center font-bold">
@@ -224,27 +223,23 @@
             </td>
             <td class="border border-gray-300">
               <div class="flex justify-center items-center">
-                <div
-                  class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center"
-                >
-                  <div class="tracking-wide text-xs text-blue-900 font-bold">
+                <div class="w-30 h-30 rounded-full border-2 border-blue-600 flex flex-col items-center justify-center">
+                  <div class="tracking-wide text-xs text-blue-900 font-bold" v-if="listData?.OPR_HREC_EMPNO !== null">
                     {{
                       (findUserName(listData?.OPR_HREC_EMPNO) || "")
                         .trim()
                         .split(/\s+/)[0]
                     }}
                   </div>
+                  <div v-else class="tracking-wide text-xs text-blue-900 font-bold">
+                    ไม่มีข้อมูล
+                  </div>
                   <hr class="w-full border-blue-600 my-1" />
-                  <div
-                    class="text-xs text-blue-900 text-center font-bold"
-                    v-if="listData?.OPR_HREC_UPDATELSTDT === null"
-                  >
+                  <div class="text-xs text-blue-900 text-center font-bold"
+                    v-if="listData?.OPR_HREC_UPDATELSTDT === null">
                     {{ dayjs(listData?.OPR_HREC_LSTDT).format("DD/MM/YYYY") }}
                   </div>
-                  <div
-                    class="text-xs text-blue-900 text-center font-bold"
-                    v-else
-                  >
+                  <div class="text-xs text-blue-900 text-center font-bold" v-else>
                     {{
                       dayjs(listData?.OPR_HREC_UPDATELSTDT).format("DD/MM/YYYY")
                     }}
@@ -313,48 +308,28 @@
           <p class="font-semibold">Status Plan:</p>
           <div class="flex gap-4">
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_STATUSMDL === 'Urgent'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_STATUSMDL === 'Urgent'" disabled />
               <p>Urgent</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_STATUSMDL === 'Normal'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_STATUSMDL === 'Normal'" disabled />
               <p>Normal</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_STATUSMDL === 'New line'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_STATUSMDL === 'New line'" disabled />
               <p>New Line</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_STATUSMDL === 'New model'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_STATUSMDL === 'New model'" disabled />
               <p>New Model</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_STATUSMDL === 'Over Plan'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_STATUSMDL === 'Over Plan'" disabled />
               <p>Over Plan</p>
             </div>
           </div>
@@ -394,29 +369,18 @@
           </div>
         </div>
       </div>
-      <div
-        class="grid grid-cols-2 gap-5 mt-3"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid grid-cols-2 gap-5 mt-3" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex gap-2">
           <p class="font-semibold">Process:</p>
           <div class="flex gap-4">
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCSCP === 'CP'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCSCP === 'CP'" disabled />
               <p>CP</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCSCP === 'RF'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCSCP === 'RF'" disabled />
               <p>RF</p>
             </div>
           </div>
@@ -425,21 +389,13 @@
           <p class="font-semibold">Process:</p>
           <div class="flex gap-4">
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCSCP_CHN === 'CP'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCSCP_CHN === 'CP'" disabled />
               <p>CP</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCSCP_CHN === 'RF'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCSCP_CHN === 'RF'" disabled />
               <p>RF</p>
             </div>
           </div>
@@ -450,39 +406,23 @@
           <p class="font-semibold">Process:</p>
           <div class="flex gap-4">
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCS_RF === 'CP'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCS_RF === 'CP'" disabled />
               <p>CP</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCS_RF === 'RF'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCS_RF === 'RF'" disabled />
               <p>RF</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCS_RF === 'RF1'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCS_RF === 'RF1'" disabled />
               <p>RF1</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCS_RF === 'RF2'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCS_RF === 'RF2'" disabled />
               <p>RF2</p>
             </div>
           </div>
@@ -491,39 +431,23 @@
           <p class="font-semibold">Process:</p>
           <div class="flex gap-4">
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCS_RF_CHN === 'CP'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCS_RF_CHN === 'CP'" disabled />
               <p>CP</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCS_RF_CHN === 'RF'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCS_RF_CHN === 'RF'" disabled />
               <p>RF</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCS_RF_CHN === 'RF1'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCS_RF_CHN === 'RF1'" disabled />
               <p>RF1</p>
             </div>
             <div class="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.OPR_HREC_PROCS_RF_CHN === 'RF2'"
-                disabled
-              />
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.OPR_HREC_PROCS_RF_CHN === 'RF2'" disabled />
               <p>RF2</p>
             </div>
           </div>
@@ -569,63 +493,32 @@
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">1. Loader Input</h3>
           <div class="flex gap-2">
-            <div
-              class="flex gap-1 items-center"
-              v-if="listData?.OPR_HREC_PROCS === 'CP'"
-            >
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.TEC_CPHREC_LOADINP === 'Use'"
-                disabled
-              />
+            <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'CP'">
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.TEC_CPHREC_LOADINP === 'Use'" disabled />
               <p>Use</p>
             </div>
-            <div
-              class="flex gap-1 items-center"
-              v-if="listData?.OPR_HREC_PROCS === 'RF'"
-            >
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.TEC_RFHREC_LOADINP === 'Use'"
-                disabled
-              />
+            <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'RF'">
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.TEC_RFHREC_LOADINP === 'Use'" disabled />
               <p>Use</p>
             </div>
-            <div
-              class="flex gap-1 items-center"
-              v-if="listData?.OPR_HREC_PROCS === 'CP'"
-            >
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.TEC_CPHREC_LOADINP === 'Not Use'"
-                disabled
-              />
+            <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'CP'">
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.TEC_CPHREC_LOADINP === 'Not Use'" disabled />
               <p>Not Use</p>
             </div>
-            <div
-              class="flex gap-1 items-center"
-              v-if="listData?.OPR_HREC_PROCS === 'RF'"
-            >
-              <input
-                type="checkbox"
-                class="w-4 h-4 disabled:opacity-100 accent-black"
-                :checked="listData?.TEC_RFHREC_LOADINP === 'Not Use'"
-                disabled
-              />
+            <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'RF'">
+              <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                :checked="listData?.TEC_RFHREC_LOADINP === 'Not Use'" disabled />
               <p>Not Use</p>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="
-            listData?.TEC_CPHREC_LOADINP === 'Use' ||
-            listData?.TEC_RFHREC_LOADINP === 'Use'
-          "
-        >
+        <div class="flex flex-col gap-3" v-if="
+          listData?.TEC_CPHREC_LOADINP === 'Use' ||
+          listData?.TEC_RFHREC_LOADINP === 'Use'
+        ">
           <h3 class="font-semibold invisible">Placeholder</h3>
           <div class="flex gap-2" v-if="listData?.OPR_HREC_PROCS === 'CP'">
             <h3 class="font-semibold">Pitch Setting:</h3>
@@ -643,52 +536,24 @@
           <h3 class="font-semibold">2.Stack</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'CP'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_STACK === 'Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'CP'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_STACK === 'Use'" disabled />
                 <p>Use</p>
               </div>
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'RF'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_STACK === 'Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'RF'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_STACK === 'Use'" disabled />
                 <p>Use</p>
               </div>
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'CP'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_STACK === 'Not Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'CP'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_STACK === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'RF'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_STACK === 'Not Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'RF'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_STACK === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
@@ -701,52 +566,24 @@
           <h3 class="font-semibold">3. Traceability Input</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'CP'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_TRACEINP === 'Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'CP'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_TRACEINP === 'Use'" disabled />
                 <p>Use</p>
               </div>
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'RF'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_TRACEINP === 'Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'RF'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_TRACEINP === 'Use'" disabled />
                 <p>Use</p>
               </div>
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'CP'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_TRACEINP === 'Not Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'CP'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_TRACEINP === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'RF'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_TRACEINP === 'Not Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'RF'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_TRACEINP === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
@@ -759,64 +596,33 @@
           <h3 class="font-semibold">4. PCB Cleaning</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'CP'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_PCBCLEAN === 'Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'CP'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_PCBCLEAN === 'Use'" disabled />
                 <p>Use</p>
               </div>
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'RF'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_PCBCLEAN === 'Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'RF'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_PCBCLEAN === 'Use'" disabled />
                 <p>Use</p>
               </div>
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'CP'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_PCBCLEAN === 'Not Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'CP'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_PCBCLEAN === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
-              <div
-                class="flex gap-1 items-center"
-                v-if="listData?.OPR_HREC_PROCS === 'RF'"
-              >
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_PCBCLEAN === 'Not Use'"
-                  disabled
-                />
+              <div class="flex gap-1 items-center" v-if="listData?.OPR_HREC_PROCS === 'RF'">
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_PCBCLEAN === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="
-            listData?.TEC_CPHREC_PCBCLEAN === 'Use' ||
-            listData?.TEC_RFHREC_PCBCLEAN === 'Use'
-          "
-        >
+        <div class="flex flex-col gap-3" v-if="
+          listData?.TEC_CPHREC_PCBCLEAN === 'Use' ||
+          listData?.TEC_RFHREC_PCBCLEAN === 'Use'
+        ">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Function:</p>
@@ -830,31 +636,20 @@
         </div>
       </div>
       <!-- TODO: Glue (M/C #1) CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">5. Glue (M/C #1)</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_GLUE === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_GLUE === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_GLUE === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_GLUE === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
@@ -892,31 +687,20 @@
         </div>
       </div>
       <!-- TODO: Printer RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">5. Printer</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_PRINT === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_PRINT === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_PRINT === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_PRINT === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
@@ -949,14 +733,11 @@
             </p>
           </div>
           <div class="flex gap-2" v-if="listData?.TEC_RFHREC_PINPIC">
-            <img
-              class="w-48"
-              :src="`http://172.22.64.11/49_modelchange/49_mdlchn_api/images/${listData?.TEC_RFHREC_PINPIC}`"
-              alt=""
+            <img class="w-48"
+              :src="`http://172.22.64.11/49_modelchange/49_mdlchn_api/images/${listData?.TEC_RFHREC_PINPIC}`" alt=""
               @click="
                 imgClick = `http://172.22.64.11/49_modelchange/49_mdlchn_api/images/${listData?.TEC_RFHREC_PINPIC}`
-              "
-            />
+                " />
           </div>
           <div class="flex gap-2">
             <p class="font-semibold">Solder plate number:</p>
@@ -968,31 +749,20 @@
       </div>
 
       <!-- TODO: Glue (M/C #2) CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">6. Glue (M/C #2)</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_GLUESND === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_GLUESND === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_GLUESND === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_GLUESND === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
@@ -1030,40 +800,26 @@
         </div>
       </div>
       <!-- TODO: Glue RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">6. Glue</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_GLUE === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_GLUE === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_GLUE === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_GLUE === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_GLUE === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_GLUE === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1080,40 +836,26 @@
         </div>
       </div>
       <!-- TODO: Solder plate inspection RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">7. Solder plate inspection</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_SOLDERINSP === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_SOLDERINSP === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_SOLDERINSP === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_SOLDERINSP === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_SOLDERINSP === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_SOLDERINSP === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1124,40 +866,26 @@
         </div>
       </div>
       <!-- TODO: Mounter (M/C #1) CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">7. Mounter (M/C #1)</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_MNTF === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_MNTF === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_MNTF === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_MNTF === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_CPHREC_MNTF === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_CPHREC_MNTF === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1180,40 +908,26 @@
         </div>
       </div>
       <!-- TODO: Mounter (M/C #2) CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">8. Mounter (M/C #2)</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_MNTSN === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_MNTSN === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_MNTSN === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_MNTSN === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_CPHREC_MNTSN === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_CPHREC_MNTSN === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1236,40 +950,26 @@
         </div>
       </div>
       <!-- TODO: Mounter (M/C #3) CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">9. Mounter (M/C #3)</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_MNTTR === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_MNTTR === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_MNTTR === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_MNTTR === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_CPHREC_MNTTR === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_CPHREC_MNTTR === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1292,40 +992,26 @@
         </div>
       </div>
       <!-- TODO: Mounter (M/C #4) CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">10. Mounter (M/C #4)</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_MNTFO === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_MNTFO === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_MNTFO === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_MNTFO === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_CPHREC_MNTFO === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_CPHREC_MNTFO === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1348,40 +1034,26 @@
         </div>
       </div>
       <!-- TODO: Mounter (M/C #1) RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">8. Mounter (M/C #1)</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_MNTF === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_MNTF === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_MNTF === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_MNTF === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_MNTF === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_MNTF === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1404,40 +1076,26 @@
         </div>
       </div>
       <!-- TODO: Mounter (M/C #2) RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">9. Mounter (M/C #2)</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_MNTSN === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_MNTSN === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_MNTSN === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_MNTSN === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_MNTSN === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_MNTSN === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1460,40 +1118,26 @@
         </div>
       </div>
       <!-- TODO: Mounter (M/C #3) RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">10. Mounter (M/C #3)</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_MNTTR === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_MNTTR === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_MNTTR === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_MNTTR === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_MNTTR === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_MNTTR === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1516,40 +1160,26 @@
         </div>
       </div>
       <!-- TODO: Mounter (M/C #4) RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">11. Mounter (M/C #4)</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_MNTFO === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_MNTFO === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_MNTFO === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_MNTFO === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_MNTFO === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_MNTFO === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1572,40 +1202,26 @@
         </div>
       </div>
       <!-- TODO: Mounter Inspector CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">11. Mounter Inspector</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_MNTINSP === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_MNTINSP === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_MNTINSP === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_MNTINSP === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_CPHREC_MNTINSP === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_CPHREC_MNTINSP === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1616,40 +1232,26 @@
         </div>
       </div>
       <!-- TODO: Mounter Inspector RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">12. Mounter Inspector</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_MNTINSP === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_MNTINSP === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_MNTINSP === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_MNTINSP === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_MNTINSP === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_MNTINSP === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1660,40 +1262,26 @@
         </div>
       </div>
       <!-- TODO: Reflow CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">12. Reflow</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_REFLOW === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_REFLOW === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_REFLOW === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_REFLOW === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_CPHREC_REFLOW === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_CPHREC_REFLOW === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1721,11 +1309,7 @@
             <div class="grid grid-cols-3 gap-3">
               <div class="flex flex-col gap-2">
                 <p class="font-semibold underline">Channel</p>
-                <p
-                  v-for="(item, index) in 10"
-                  :key="index"
-                  class="font-semibold"
-                >
+                <p v-for="(item, index) in 10" :key="index" class="font-semibold">
                   CH {{ index + 1 }}
                 </p>
               </div>
@@ -1752,40 +1336,26 @@
         </div>
       </div>
       <!-- TODO: Reflow RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">13. Reflow</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_REFLOW === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_REFLOW === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_REFLOW === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_REFLOW === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_REFLOW === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_REFLOW === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1814,11 +1384,7 @@
             <div class="grid grid-cols-3 gap-3">
               <div class="flex flex-col gap-2">
                 <p class="font-semibold underline">Channel</p>
-                <p
-                  v-for="(item, index) in 10"
-                  :key="index"
-                  class="font-semibold"
-                >
+                <p v-for="(item, index) in 10" :key="index" class="font-semibold">
                   CH {{ index + 1 }}
                 </p>
               </div>
@@ -1845,31 +1411,20 @@
         </div>
       </div>
       <!-- TODO: PCB Cooling CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">13. PCB Cooling</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_PCBCOOL === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_PCBCOOL === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_PCBCOOL === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_PCBCOOL === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
@@ -1877,31 +1432,20 @@
         </div>
       </div>
       <!-- TODO: PCB Cooling RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">14. PCB Cooling</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_PCBCOOL === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_PCBCOOL === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_PCBCOOL === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_PCBCOOL === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
@@ -1909,40 +1453,26 @@
         </div>
       </div>
       <!-- TODO: Auto Optic Inspection CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">14. Auto Optic Inspection</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_AUTO === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_AUTO === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_AUTO === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_AUTO === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_CPHREC_AUTO === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_CPHREC_AUTO === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1953,40 +1483,26 @@
         </div>
       </div>
       <!-- TODO: Auto Optic Inspection RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">15. Auto Optic Inspection</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_AUTO === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_AUTO === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_AUTO === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_AUTO === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_AUTO === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_AUTO === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Program name:</p>
@@ -1997,40 +1513,26 @@
         </div>
       </div>
       <!-- TODO: NG Stocker CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">15. NG Stocker</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_NGSTCK === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_NGSTCK === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_NGSTCK === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_NGSTCK === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_CPHREC_NGSTCK === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_CPHREC_NGSTCK === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Pitch Setting:</p>
@@ -2041,40 +1543,26 @@
         </div>
       </div>
       <!-- TODO: NG Stocker RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">16. NG Stocker</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_NGSTCK === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_NGSTCK === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_NGSTCK === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_NGSTCK === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_NGSTCK === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_NGSTCK === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Pitch Setting:</p>
@@ -2085,31 +1573,20 @@
         </div>
       </div>
       <!-- TODO: Traceability Input CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">16. Traceability Input</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_TRACE === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_TRACE === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_TRACE === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_TRACE === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
@@ -2117,31 +1594,20 @@
         </div>
       </div>
       <!-- TODO: Traceability Input RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">17. Traceability Input</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_TRACE === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_TRACE === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_TRACE === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_TRACE === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
@@ -2149,40 +1615,26 @@
         </div>
       </div>
       <!-- TODO: Unloader Input CP -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'CP'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'CP'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">17. Unloader Input</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_UNLOADER === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_UNLOADER === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_CPHREC_UNLOADER === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_CPHREC_UNLOADER === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_CPHREC_NGSTCK === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_CPHREC_NGSTCK === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Pitch Setting:</p>
@@ -2193,40 +1645,26 @@
         </div>
       </div>
       <!-- TODO: Unloader Input RF -->
-      <div
-        class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1"
-        v-if="listData?.OPR_HREC_PROCS === 'RF'"
-      >
+      <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-5 gap-1" v-if="listData?.OPR_HREC_PROCS === 'RF'">
         <div class="flex flex-col gap-3">
           <h3 class="font-semibold">18. Unloader Input</h3>
           <div class="flex gap-2">
             <div class="flex gap-2">
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_UNLOADER === 'Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_UNLOADER === 'Use'" disabled />
                 <p>Use</p>
               </div>
 
               <div class="flex gap-1 items-center">
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 disabled:opacity-100 accent-black"
-                  :checked="listData?.TEC_RFHREC_UNLOADER === 'Not Use'"
-                  disabled
-                />
+                <input type="checkbox" class="w-4 h-4 disabled:opacity-100 accent-black"
+                  :checked="listData?.TEC_RFHREC_UNLOADER === 'Not Use'" disabled />
                 <p>Not Use</p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="flex flex-col gap-3"
-          v-if="listData?.TEC_RFHREC_UNLOADER === 'Use'"
-        >
+        <div class="flex flex-col gap-3" v-if="listData?.TEC_RFHREC_UNLOADER === 'Use'">
           <h3 class="font-semibold invisible">PlaceHolder</h3>
           <div class="flex gap-2">
             <p class="font-semibold">Pitch Setting:</p>
@@ -2240,23 +1678,14 @@
   </div>
   <Teleport to="body">
     <Transition name="lightbox">
-      <div
-        v-if="imgClick"
-        @click.self="imgClick = null"
-        class="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 backdrop-blur-sm"
-      >
+      <div v-if="imgClick" @click.self="imgClick = null"
+        class="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 backdrop-blur-sm">
         <div class="relative max-w-[90vw] max-h-[90vh]">
-          <button
-            @click="imgClick = null"
-            class="absolute -top-4 -right-4 w-9 h-9 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-rose-500 hover:text-white transition z-10 cursor-pointer"
-          >
+          <button @click="imgClick = null"
+            class="absolute -top-4 -right-4 w-9 h-9 flex items-center justify-center bg-white text-gray-700 rounded-full shadow-lg hover:bg-rose-500 hover:text-white transition z-10 cursor-pointer">
             <X class="w-8 h-8" />
           </button>
-          <img
-            :src="imgClick"
-            alt=""
-            class="max-w-[90vw] max-h-[85vh] object-contain rounded-xl shadow-2xl"
-          />
+          <img :src="imgClick" alt="" class="max-w-[90vw] max-h-[85vh] object-contain rounded-xl shadow-2xl" />
         </div>
       </div>
     </Transition>
