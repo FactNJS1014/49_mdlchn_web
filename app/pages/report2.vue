@@ -86,7 +86,7 @@
           </template>
           <template #item.view="{ item }">
             <v-btn
-              @click="openViewPdf(item)"
+              @click="openViewPdf(item.OPR_HREC_ID)"
               class="rounded-xl"
               color="light-blue darken-3"
             >
@@ -124,7 +124,7 @@
           </template>
           <template #item.view="{ item }">
             <v-btn
-              @click="openViewPdf(item)"
+              @click="openViewPdf(item.OPR_HREC_ID)"
               class="rounded-xl"
               color="light-blue darken-3"
             >
@@ -403,8 +403,16 @@ const findUserName = (empId: string | number) => {
   return emp ? emp.MUSR_NAME : "ไม่พบชื่อ";
 };
 
-const openViewPdf = (data: any) => {
-  report_rf.value = data;
+// const openViewPdf = (data: any) => {
+//   report_rf.value = data;
+// };
+
+const router = useRouter();
+
+const openViewPdf = (id: string) => {
+  const route = router.resolve(`/reportRF/${id}`);
+  window.open(route.href, "_blank");
+  // console.log("id", id);
 };
 
 const fetchApiLine = async () => {

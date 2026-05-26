@@ -10,8 +10,11 @@
       <div class="flex gap-2 align-center">
         <h1>Employee ID :</h1>
         <span>
-          <input type="text" class="w-full px-3 py-2 border border-gray-800 rounded-lg focus:outline-none"
-            v-model="empno" />
+          <input
+            type="text"
+            class="w-full px-3 py-2 border border-gray-800 rounded-lg focus:outline-none"
+            v-model="empno"
+          />
         </span>
       </div>
 
@@ -25,13 +28,19 @@
     <div class="mt-2 mb-2 flex gap-2">
       <div>
         <div>Start Machine</div>
-        <input type="time" v-model="start_machine"
-          class="w-full px-10 py-4 text-lg text-base placeholder-gray-400 transition-colors bg-white border border-gray-300 rounded focus:outline-none" />
+        <input
+          type="time"
+          v-model="start_machine"
+          class="w-full px-10 py-4 text-lg text-base placeholder-gray-400 transition-colors bg-white border border-gray-300 rounded focus:outline-none"
+        />
       </div>
       <div>
         <div>Finish Machine</div>
-        <input type="time" v-model="finish_machine"
-          class="w-full px-10 py-4 text-lg text-base placeholder-gray-400 transition-colors bg-white border border-gray-300 rounded focus:outline-none" />
+        <input
+          type="time"
+          v-model="finish_machine"
+          class="w-full px-10 py-4 text-lg text-base placeholder-gray-400 transition-colors bg-white border border-gray-300 rounded focus:outline-none"
+        />
       </div>
     </div>
     <v-row no-gutters>
@@ -79,11 +88,24 @@
       </v-col>
       <v-col cols="6" md="4" v-show="func_std">
         <div class="mt-3 font-semibold">Function</div>
-        <v-select v-model="func" :items="funcPCB" item-title="name" item-value="name" chips multiple clearable
-          @update:model-value="func = func.filter((v) => v !== '')" />
+        <v-select
+          v-model="func"
+          :items="funcPCB"
+          item-title="name"
+          item-value="name"
+          chips
+          multiple
+          clearable
+          @update:model-value="func = func.filter((v) => v !== '')"
+        />
 
         <!-- <p>{{ func }}</p> -->
-        <v-text-field variant="outlined" density="compact" v-model="etc_details" label="Etc." />
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="etc_details"
+          label="Etc."
+        />
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -97,7 +119,11 @@
 
       <v-col cols="12" md="4" v-if="printer_std_use">
         <div class="mt-3 font-semibold">5.1 Program name</div>
-        <v-text-field variant="outlined" density="compact" v-model="printer_prg" />
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="printer_prg"
+        />
         <!-- <v-radio-group inline class="gap-4" v-model="printer_prg">
             <v-radio :label="props.pcbno" :value="props.pcbno"></v-radio>
           </v-radio-group> -->
@@ -109,10 +135,16 @@
           ></v-radio>
           <v-radio label="REF#." value="REF"></v-radio>
         </v-radio-group> -->
-        <v-text-field variant="outlined" density="compact" v-model="ref_mm" :rules="[
-          (v) => !!v || 'กรุณากรอกข้อมูล',
-          (v) => (v && v.length === 3) || 'ต้องกรอก 3 ตัวอักษร',
-        ]" maxlength="3" />
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="ref_mm"
+          :rules="[
+            (v) => !!v || 'กรุณากรอกข้อมูล',
+            (v) => (v && v.length === 3) || 'ต้องกรอก 3 ตัวอักษร',
+          ]"
+          maxlength="3"
+        />
         <div class="mt-3 font-semibold">5.3 Squeegee</div>
         <v-radio-group inline class="gap-4" v-model="squee">
           <v-radio label="Good condition" value="Good condition"></v-radio>
@@ -133,61 +165,107 @@
               </label>
 
               <!-- MOBILE / TABLET -->
-              <div v-if="isMobileOrTablet && !isCameraOpen" class="flex flex-col items-center gap-2">
+              <div
+                v-if="isMobileOrTablet && !isCameraOpen"
+                class="flex flex-col items-center gap-2"
+              >
                 <!-- ปุ่มเปิดกล้อง -->
-                <button type="button" @click="startCamera"
-                  class="flex items-center gap-2 cursor-pointer border border-dashed border-gray-400 rounded-md px-3 py-4 text-gray-500 hover:bg-gray-50 justify-center w-full">
+                <button
+                  type="button"
+                  @click="startCamera"
+                  class="flex items-center gap-2 cursor-pointer border border-dashed border-gray-400 rounded-md px-3 py-4 text-gray-500 hover:bg-gray-50 justify-center w-full"
+                >
                   <Camera :size="20" />
                   <span>ถ่ายรูป</span>
                 </button>
 
                 <!-- ปุ่มเลือกไฟล์ -->
-                <button type="button" @click="fileInput?.click()"
-                  class="flex items-center gap-2 cursor-pointer border border-dashed border-gray-400 rounded-md px-3 py-4 text-gray-500 hover:bg-gray-50 justify-center w-full">
+                <button
+                  type="button"
+                  @click="fileInput?.click()"
+                  class="flex items-center gap-2 cursor-pointer border border-dashed border-gray-400 rounded-md px-3 py-4 text-gray-500 hover:bg-gray-50 justify-center w-full"
+                >
                   <Image :size="20" />
                   หรือเลือกรูปจากเครื่อง
                 </button>
 
                 <!-- input ซ่อน -->
-                <input ref="fileInput" type="file" class="hidden" accept="image/*" @change="handleImageUpload" />
+                <input
+                  ref="fileInput"
+                  type="file"
+                  class="hidden"
+                  accept="image/*"
+                  @change="handleImageUpload"
+                />
               </div>
 
               <!-- DESKTOP → เลือกไฟล์ -->
-              <label v-else-if="!isMobileOrTablet"
-                class="flex items-center gap-2 cursor-pointer border border-dashed border-gray-400 rounded-md px-3 py-4 text-gray-500 hover:bg-gray-50 justify-center">
+              <label
+                v-else-if="!isMobileOrTablet"
+                class="flex items-center gap-2 cursor-pointer border border-dashed border-gray-400 rounded-md px-3 py-4 text-gray-500 hover:bg-gray-50 justify-center"
+              >
                 <Camera :size="20" />
                 <span>เลือกรูปภาพ</span>
-                <input type="file" class="hidden" accept="image/*" @change="handleImageUpload" />
+                <input
+                  type="file"
+                  class="hidden"
+                  accept="image/*"
+                  @change="handleImageUpload"
+                />
               </label>
 
               <!-- FULLSCREEN CAMERA -->
-              <div v-if="isCameraOpen" class="fixed inset-0 bg-black z-50 flex flex-col justify-between">
+              <div
+                v-if="isCameraOpen"
+                class="fixed inset-0 bg-black z-50 flex flex-col justify-between"
+              >
                 <!-- กล้อง -->
-                <video ref="video" autoplay playsinline class="w-full h-full object-cover"></video>
+                <video
+                  ref="video"
+                  autoplay
+                  playsinline
+                  class="w-full h-full object-cover"
+                ></video>
 
                 <!-- ปุ่มควบคุม -->
-                <div class="absolute bottom-0 left-0 w-full flex justify-center items-center gap-6 pb-6">
+                <div
+                  class="absolute bottom-0 left-0 w-full flex justify-center items-center gap-6 pb-6"
+                >
                   <!-- ยกเลิก -->
-                  <button type="button" @click="stopCamera"
-                    class="bg-white/20 backdrop-blur text-white px-5 py-2 rounded-full">
+                  <button
+                    type="button"
+                    @click="stopCamera"
+                    class="bg-white/20 backdrop-blur text-white px-5 py-2 rounded-full"
+                  >
                     ยกเลิก
                   </button>
 
                   <!-- ปุ่มถ่ายรูป -->
-                  <button type="button" @click="takePhoto"
-                    class="w-16 h-16 rounded-full bg-white border-4 border-gray-300"></button>
+                  <button
+                    type="button"
+                    @click="takePhoto"
+                    class="w-16 h-16 rounded-full bg-white border-4 border-gray-300"
+                  ></button>
                 </div>
               </div>
             </div>
 
             <!-- Preview -->
             <div class="flex flex-col gap-1 col-span-2 items-center">
-              <img v-if="imagePreview" :src="imagePreview" alt="image"
-                class="max-w-full max-h-[300px] object-contain" />
+              <img
+                v-if="imagePreview"
+                :src="imagePreview"
+                alt="image"
+                class="max-w-full max-h-[300px] object-contain"
+              />
 
               <!-- ปุ่มหลังถ่าย -->
               <div v-if="imagePreview" class="flex gap-2 mt-2">
-                <button type="button" @click="retake" class="bg-red-500 text-white px-4 py-2 rounded">
+                <button
+                  type="button"
+                  @click="retake"
+                  class="bg-red-500 text-white px-4 py-2 rounded"
+                >
                   ถ่ายใหม่
                 </button>
               </div>
@@ -195,7 +273,13 @@
           </div>
         </div>
         <div class="mt-3 font-semibold">5.5 Solder plate number</div>
-        <v-select v-model="solder" variant="outlined" rounded="md" :items="db_solder" item-title="SAG_SUBMATNUM">
+        <v-select
+          v-model="solder"
+          variant="outlined"
+          rounded="md"
+          :items="db_solder"
+          item-title="SAG_SUBMATNUM"
+        >
         </v-select>
       </v-col>
     </v-row>
@@ -216,7 +300,13 @@
             <v-radio  :value="props.prgnm"></v-radio>
           </v-radio-group> -->
         <div class="mt-3 font-semibold">6.2 Glue number</div>
-        <v-select v-model="glue_num" variant="outlined" rounded="md" :items="db_glue" item-title="SAG_SUBMATNUM">
+        <v-select
+          v-model="glue_num"
+          variant="outlined"
+          rounded="md"
+          :items="db_glue"
+          item-title="SAG_SUBMATNUM"
+        >
         </v-select>
       </v-col>
     </v-row>
@@ -231,7 +321,12 @@
 
       <v-col cols="12" md="4" v-if="solder_user_std">
         <div class="mt-3 font-semibold">Program name</div>
-        <v-text-field variant="outlined" density="compact" v-model="solder_prgnm" class="w-auto" />
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="solder_prgnm"
+          class="w-auto"
+        />
         <!-- <v-radio-group inline class="gap-4" v-model="solder_prgnm">
             <v-radio  :value="props.prgnm"></v-radio>
           </v-radio-group> -->
@@ -248,7 +343,11 @@
 
       <v-col cols="12" md="4" v-if="mounter_ref_use">
         <div class="mt-3 font-semibold">8.1 Program name</div>
-        <v-text-field variant="outlined" density="compact" v-model="prg_ref_mount1" />
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="prg_ref_mount1"
+        />
         <!-- <v-radio-group inline class="gap-4" v-model="prg_ref_mount1">
             <v-radio  :value="props.prgnm"></v-radio>
           </v-radio-group> -->
@@ -277,7 +376,11 @@
 
       <v-col cols="12" md="4" v-if="mounter2_ref_use">
         <div class="mt-3 font-semibold">9.1 Program name</div>
-        <v-text-field variant="outlined" density="compact" v-model="prg_ref_mount2" />
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="prg_ref_mount2"
+        />
         <!-- <v-radio-group inline class="gap-4" v-model="prg_ref_mount2">
             <v-radio  :value="props.prgnm"></v-radio>
           </v-radio-group> -->
@@ -306,7 +409,11 @@
 
       <v-col cols="12" md="4" v-if="mounter3_ref_use">
         <div class="mt-3 font-semibold">10.1 Program name</div>
-        <v-text-field variant="outlined" density="compact" v-model="prg_ref_mount3" />
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="prg_ref_mount3"
+        />
         <!-- <v-radio-group inline class="gap-4" v-model="prg_ref_mount3">
             <v-radio  :value="props.prgnm"></v-radio>
           </v-radio-group> -->
@@ -335,7 +442,11 @@
 
       <v-col cols="12" md="4" v-if="mounter4_ref_use">
         <div class="mt-3 font-semibold">11.1 Program name</div>
-        <v-text-field variant="outlined" density="compact" v-model="prg_ref_mount4" />
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="prg_ref_mount4"
+        />
         <!-- <v-radio-group inline class="gap-4" v-model="prg_ref_mount4">
             <v-radio  :value="props.prgnm"></v-radio>
           </v-radio-group> -->
@@ -364,7 +475,11 @@
 
       <v-col cols="12" md="4" v-if="mounter_ref_inps_std">
         <div class="mt-3 font-semibold">12.1 Program name</div>
-        <v-text-field variant="outlined" density="compact" v-model="prg_ref_inspct" />
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="prg_ref_inspct"
+        />
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -378,14 +493,23 @@
       <div v-if="reflow_rf_use_std">
         <v-col cols="12" md="20">
           <div class="mt-3 font-semibold">13.1 Program name</div>
-          <v-text-field variant="outlined" density="compact" v-model="prg_rf_reflow" />
+          <v-text-field
+            variant="outlined"
+            density="compact"
+            v-model="prg_rf_reflow"
+          />
 
           <div class="mt-3 font-semibold">13.2 Oxygen</div>
           <v-radio-group inline class="gap-4" v-model="oxygen_rf_reflow_std">
             <v-radio label="Use" value="Use"></v-radio>
             <v-radio label="Not Use" value="Not Use"></v-radio>
           </v-radio-group>
-          <v-text-field variant="outlined" density="compact" v-model="oxyen_rf_use" v-if="oxygen_rf_std_use" />
+          <v-text-field
+            variant="outlined"
+            density="compact"
+            v-model="oxyen_rf_use"
+            v-if="oxygen_rf_std_use"
+          />
           <div class="mt-3 font-semibold">13.3 PCB Supporter</div>
           <v-radio-group inline class="gap-4" v-model="sup_rf_reflow_std">
             <v-radio label="Use" value="Use"></v-radio>
@@ -396,51 +520,146 @@
             <div class="mt-2">
               <div>TOP Side</div>
               <div class="mt-3">CH-1</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_top_ch1" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_top_ch1"
+              />
               <div class="mt-2">CH-2</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_top_ch2" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_top_ch2"
+              />
               <div class="mt-2">CH-3</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_top_ch3" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_top_ch3"
+              />
               <div class="mt-2">CH-4</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_top_ch4" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_top_ch4"
+              />
               <div class="mt-2">CH-5</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_top_ch5" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_top_ch5"
+              />
               <div class="mt-2">CH-6</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_top_ch6" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_top_ch6"
+              />
               <div class="mt-2">CH-7</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_top_ch7" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_top_ch7"
+              />
               <div class="mt-2">CH-8</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_top_ch8" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_top_ch8"
+              />
               <div class="mt-2">CH-9</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_top_ch9" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_top_ch9"
+              />
               <div class="mt-2">CH-10</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_top_ch10" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_top_ch10"
+              />
               <div class="mt-2">Conveyor Speed</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_conveyor_speed" :step="0.01"
-                :precision="2" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_conveyor_speed"
+                :step="0.01"
+                :precision="2"
+              />
             </div>
             <div class="mt-2">
               <div>BOTTOM Side</div>
               <div class="mt-3">CH-1</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_btm_ch1" :class="diffColorch1" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_btm_ch1"
+                :class="diffColorch1"
+              />
               <div class="mt-2">CH-2</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_btm_ch2" :class="diffColorch2" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_btm_ch2"
+                :class="diffColorch2"
+              />
               <div class="mt-2">CH-3</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_btm_ch3" :class="diffColorch3" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_btm_ch3"
+                :class="diffColorch3"
+              />
               <div class="mt-2">CH-4</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_btm_ch4" :class="diffColorch4" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_btm_ch4"
+                :class="diffColorch4"
+              />
               <div class="mt-2">CH-5</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_btm_ch5" :class="diffColorch5" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_btm_ch5"
+                :class="diffColorch5"
+              />
               <div class="mt-2">CH-6</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_btm_ch6" :class="diffColorch6" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_btm_ch6"
+                :class="diffColorch6"
+              />
               <div class="mt-2">CH-7</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_btm_ch7" :class="diffColorch7" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_btm_ch7"
+                :class="diffColorch7"
+              />
               <div class="mt-2">CH-8</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_btm_ch8" :class="diffColorch8" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_btm_ch8"
+                :class="diffColorch8"
+              />
               <div class="mt-2">CH-9</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_btm_ch9" :class="diffColorch9" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_btm_ch9"
+                :class="diffColorch9"
+              />
               <div class="mt-2">CH-10</div>
-              <v-number-input variant="outlined" density="compact" v-model="temp_rf_btm_ch10" :class="diffColorch10" />
+              <v-number-input
+                variant="outlined"
+                density="compact"
+                v-model="temp_rf_btm_ch10"
+                :class="diffColorch10"
+              />
             </div>
           </div>
         </v-col>
@@ -466,7 +685,11 @@
 
       <v-col cols="12" md="4" v-if="auto_rf_inps_std">
         <div class="mt-3 font-semibold">Program name</div>
-        <v-text-field variant="outlined" density="compact" v-model="prg_rf_auto" />
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="prg_rf_auto"
+        />
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -961,14 +1184,16 @@ const handleRFSubmit = async () => {
       formData,
     );
     console.log(res.data);
-    // if (res.data.status === true) {
-    //   Swal.fire({
-    //     icon: "success",
-    //     title: "บันทึกข้อมูลสำเร็จ",
-    //     showConfirmButton: false,
-    //     timer: 1500,
-    //   });
-    // }
+    if (res.data.status === true) {
+      Swal.fire({
+        icon: "success",
+        title: "บันทึกข้อมูลสำเร็จ",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        location.reload();
+      });
+    }
   } catch (error) {
     console.log(error);
   }

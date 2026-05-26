@@ -435,6 +435,19 @@
             />
             <span>Backup pin</span>
           </div>
+          <div
+            v-if="
+              rfItem?.TEC_RFHREC_PRINTSUPT?.trim().toLowerCase() ===
+                'backup pin' && rfItem?.TEC_RFHREC_PINPIC
+            "
+          >
+            <img
+              class="w-24 h-24 border"
+              crossorigin="anonymous"
+              :src="`http://172.22.64.11/49_modelchange/49_mdlchn_api/images/${rfItem.TEC_RFHREC_PINPIC}`"
+              alt="pin image"
+            />
+          </div>
         </div>
       </div>
       <div class="grid grid-cols-2" v-show="rfItem?.TEC_RFHREC_PRINT === 'Use'">
@@ -1271,6 +1284,8 @@ watch(
   { immediate: true },
 );
 
+console.log(props.rfItem?.TEC_RFHREC_PINPIC);
+
 const GetUsersWeb = async () => {
   const res = await axios.get(
     "http://172.22.64.11/49_modelchange/49_mdlchn_api/api/users",
@@ -1287,6 +1302,21 @@ const findUserName = (empId: string) => {
 onMounted(async () => {
   await GetUsersWeb();
 });
+
+const waitForImages = async (container: HTMLElement) => {
+  const images = Array.from(container.querySelectorAll("img"));
+
+  await Promise.all(
+    images.map((img) => {
+      if (img.complete) return Promise.resolve();
+
+      return new Promise((resolve) => {
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    }),
+  );
+};
 
 const generatePdf = async () => {
   if (!pdfTemplate.value) return;
@@ -1306,9 +1336,16 @@ const generatePdf = async () => {
   const html2canvas = (await import("html2canvas")).default;
   const { jsPDF } = await import("jspdf");
 
-  // Render ทั้งหมดเป็น canvas
-  const canvas = await html2canvas(el, { scale: 2, useCORS: true });
+  // รอรูปโหลด
+  await waitForImages(el);
 
+  // Render ทั้งหมดเป็น canvas
+  const canvas = await html2canvas(el, {
+    scale: 2,
+    useCORS: true,
+    allowTaint: true,
+    logging: true,
+  });
   const pdf = new jsPDF("p", "mm", "a4");
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = pdf.internal.pageSize.getHeight();

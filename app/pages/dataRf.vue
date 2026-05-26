@@ -96,7 +96,7 @@
                     variant="flat"
                     color="indigo"
                     rounded="lg"
-                    @click="togglePDF(item.raw)"
+                    @click="togglePDF(item.raw.OPR_HREC_ID)"
                   >
                     <v-icon icon="mdi mdi-file-pdf-box" class="mr-2"></v-icon>
                     View PDF
@@ -325,6 +325,8 @@ const selected_form = ref<string>("");
 const remark_rejected = ref<string>("");
 const rejectedDialog = ref<boolean>(false);
 const APPROVED_BY_ME = ref<any>([]);
+
+const router = useRouter();
 
 /**
  *  TODO: เรียกข้อมูล session ผู้ใช้งาน
@@ -625,10 +627,15 @@ const dateFormat = (date: string) => {
   return dayjs(date).format("DD/MM/YYYY");
 };
 
-const togglePDF = async (item: DataItem) => {
-  selected_data_rf.value = item;
-  // console.log(selected_data_cp.value)
-  // pdfGen.value?.createPdf()
+// const togglePDF = async (item: DataItem) => {
+//   selected_data_rf.value = item;
+//   // console.log(selected_data_cp.value)
+//   // pdfGen.value?.createPdf()
+// };
+
+const togglePDF = async (id: string) => {
+  const route = router.resolve(`/pdfPageApprove/${id}`);
+  window.open(route.href, "_blank");
 };
 
 const gotoEdit = (obj: any) => {

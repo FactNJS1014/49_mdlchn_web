@@ -1,2 +1,78 @@
 @import "tailwindcss";
 
+/* ================================
+   Disabled checkbox - solid black
+   ================================ */
+input[type="checkbox"][disabled] {
+  appearance: none;
+  -webkit-appearance: none;
+  @apply w-4 h-4 border-2 border-black rounded-sm bg-white cursor-default relative opacity-100;
+}
+
+input[type="checkbox"][disabled]:checked {
+  @apply bg-black border-black;
+}
+
+input[type="checkbox"][disabled]:checked::after {
+  content: "";
+  @apply absolute left-[3px] top-0 w-[5px] h-[9px] border-white;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+
+/* ====== แสดงผลบนหน้าจอ (Responsive) ====== */
+.a4-page {
+  width: 100%;
+  max-width: 1000px; /* จำกัดความกว้าง */
+  margin: 20px auto;
+  padding: 40px;
+  box-sizing: border-box;
+  background: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ทำให้สัดส่วนเป็น A4 */
+@media screen {
+  .a4-page {
+    aspect-ratio: 210 / 297;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .a4-page {
+    padding: 30px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .a4-page {
+    padding: 20px;
+  }
+}
+
+/* บังคับขึ้นหน้าใหม่ */
+.page-break {
+  page-break-before: always;
+  break-before: page;
+}
+
+/* กัน element โดนตัดครึ่ง */
+.avoid-break {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+
+table {
+  @apply w-full;
+}
+table th {
+  @apply px-4 py-3 text-left text-[16px] font-semibold text-black uppercase;
+}
+table td {
+  @apply px-4 py-3 text-left text-[16px] font-semibold text-black uppercase;
+}

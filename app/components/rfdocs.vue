@@ -377,6 +377,19 @@
             />
             <span>Backup pin</span>
           </div>
+          <div
+            v-if="
+              dataItem?.TEC_RFHREC_PRINTSUPT?.trim().toLowerCase() ===
+                'backup pin' && dataItem?.TEC_RFHREC_PINPIC
+            "
+          >
+            <img
+              class="w-24 h-24 border"
+              crossorigin="anonymous"
+              :src="`http://172.22.64.11/49_modelchange/49_mdlchn_api/images/${dataItem?.TEC_RFHREC_PINPIC}`"
+              alt="pin image"
+            />
+          </div>
         </div>
       </div>
       <div class="grid grid-cols-2">
@@ -1197,6 +1210,21 @@ watch(
   { immediate: true },
 );
 
+const waitForImages = async (container: HTMLElement) => {
+  const images = Array.from(container.querySelectorAll("img"));
+
+  await Promise.all(
+    images.map((img) => {
+      if (img.complete) return Promise.resolve();
+
+      return new Promise((resolve) => {
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    }),
+  );
+};
+
 const generatePdf = async () => {
   if (!pdfTemplate.value) return;
 
@@ -1215,8 +1243,14 @@ const generatePdf = async () => {
   const html2canvas = (await import("html2canvas")).default;
   const { jsPDF } = await import("jspdf");
 
+  await waitForImages(el);
   // Render ทั้งหมดเป็น canvas
-  const canvas = await html2canvas(el, { scale: 2, useCORS: true });
+  const canvas = await html2canvas(el, {
+    scale: 2,
+    useCORS: true,
+    allowTaint: true,
+    logging: true,
+  });
 
   const pdf = new jsPDF("p", "mm", "a4");
   const pdfWidth = pdf.internal.pageSize.getWidth();
